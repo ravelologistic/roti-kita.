@@ -6,96 +6,116 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Roti Kita | PT Jaya Maju Sukses</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 :root {
-  --navy:#102b50;
-  --navy2:#183d68;
-  --gold:#d6ad55;
-  --cream:#fbf8f0;
-  --white:#fff;
-  --text:#253247;
-  --muted:#718096;
-  --border:#e6eaf0;
-  --green:#21865b;
-  --red:#c34b4b;
+ --navy:#102b50;
+ --navy2:#183d68;
+ --gold:#f4bd28;
+ --brown:#542b12;
+ --cream:#fff8e9;
+ --white:#fff;
+ --muted:#788292;
+ --border:#eadfc9;
+ --green:#21865b;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:Arial,sans-serif;background:var(--cream);color:var(--text);line-height:1.6}
+body{font-family:Arial,sans-serif;background:var(--cream);color:#33291f;line-height:1.6}
 button,input,select,textarea{font:inherit}
 button{cursor:pointer}
-.container{width:min(1120px,92%);margin:auto}
-header{background:var(--navy);color:white;position:sticky;top:0;z-index:20;box-shadow:0 3px 15px #0002}
-.nav{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:14px 0}
-.brand h2{font-size:23px;letter-spacing:2px;color:white}
-.brand span{font-size:11px;color:var(--gold);letter-spacing:2px}
-nav{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-nav a,nav button{color:white;text-decoration:none;background:none;border:0;font-size:14px}
-nav a:hover,nav button:hover{color:var(--gold)}
-.hero{background:linear-gradient(120deg,#102b50ee,#183d68dd),linear-gradient(45deg,#102b50,#284b70);color:white;padding:90px 0;text-align:center}
-.hero .eyebrow{color:var(--gold);letter-spacing:4px;font-weight:bold}
-.hero h1{font-size:clamp(42px,8vw,76px);letter-spacing:5px;margin:8px 0}
-.hero h2{color:var(--gold);font-size:25px}
-.hero p{max-width:570px;margin:15px auto 25px;color:#e8edf4}
-.btn{display:inline-block;background:var(--gold);color:var(--navy);border:0;border-radius:7px;padding:11px 18px;font-weight:bold;text-decoration:none}
+.container{width:min(1150px,92%);margin:auto}
+header{background:#fff5df;position:sticky;top:0;z-index:20;border-bottom:3px solid var(--gold);box-shadow:0 3px 15px #0001}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:12px 0}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-logo{width:54px;height:54px;border-radius:50%;background:linear-gradient(140deg,#ffd84e,#e69c08);border:3px solid #a66b12;display:grid;place-items:center;text-align:center;color:#51270d;font-family:Georgia,serif;font-weight:bold;font-size:13px;line-height:1.05}
+.brand h2{font-family:Georgia,serif;color:var(--brown);font-size:22px}
+.brand small{display:block;color:#986a25;letter-spacing:2px;font-size:10px}
+nav{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+nav a,nav button{color:#492b18;text-decoration:none;background:none;border:0;font-weight:bold;font-size:14px}
+nav a:hover,nav button:hover{color:#b17a0a}
+.btn{display:inline-block;background:var(--gold);color:#42250e;border:0;border-radius:30px;padding:12px 21px;font-weight:bold;text-decoration:none}
 .btn:hover{filter:brightness(.95)}
-.btn.secondary{background:var(--navy);color:white}
-.btn.danger{background:#f4dddd;color:#a52f2f}
-section{padding:58px 0}
-.section-title{text-align:center;color:var(--navy);font-size:30px;margin-bottom:8px}
-.section-subtitle{text-align:center;color:var(--muted);margin-bottom:28px}
-.product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-.product-card{background:white;border:1px solid var(--border);border-radius:13px;padding:24px;box-shadow:0 5px 18px #102b500c}
-.product-card .bread-icon{font-size:42px;margin-bottom:12px}
-.product-card h3{color:var(--navy);margin-bottom:7px}
-.product-card .price{font-weight:bold;color:#a77b26;font-size:20px;margin-top:12px}
-.product-card small{color:var(--muted)}
-.panel{background:white;padding:25px;border-radius:13px;border:1px solid var(--border);box-shadow:0 5px 18px #102b500b;max-width:850px;margin:20px auto}
-label{display:block;font-weight:bold;color:var(--navy);font-size:14px;margin:12px 0 5px}
-input,select,textarea{width:100%;padding:11px 12px;border:1px solid #d8dee8;border-radius:7px;background:white;color:var(--text)}
+.btn.dark{background:var(--brown);color:white}
+.btn.blue{background:var(--navy);color:white}
+.btn.red{background:#f3dddd;color:#9e3030}
+.hero{background:linear-gradient(90deg,#fff0d0 0%,#ffedca 47%,#b87935 100%);overflow:hidden;padding:65px 0;position:relative}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:25px}
+.hero h1{font-family:Georgia,serif;font-size:clamp(45px,7vw,78px);color:#4d260e;line-height:1.05}
+.hero h2{font-family:Georgia,serif;color:#5b2d13;font-size:clamp(20px,3vw,32px);margin:10px 0}
+.hero p{color:#69452b;margin:15px 0 24px;max-width:450px}
+.hero-product{height:300px;display:grid;place-items:center}
+.hero-package{transform:scale(1.3)}
+.section-title{text-align:center;font-size:32px;color:var(--brown);margin-bottom:7px}
+.section-subtitle{text-align:center;color:var(--muted);margin-bottom:30px}
+section{padding:55px 0}
+.products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.product-card{background:#fffaf0;border:1px solid #e8d6b5;border-radius:18px;padding:20px;text-align:center;box-shadow:0 7px 20px #6b40101a;transition:.25s}
+.product-card:hover{transform:translateY(-5px);box-shadow:0 12px 25px #6b401022}
+.package{width:155px;height:220px;margin:4px auto 17px;position:relative;border:2px solid #d9d4c9;border-radius:13px 13px 19px 19px;background:linear-gradient(110deg,#ffffffd9,#ffffff66,#ffffffc9);box-shadow:inset 5px 0 10px #fff,3px 8px 13px #0002;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.package:before,.package:after{content:"";position:absolute;top:0;width:7px;height:100%;background:#ffffff80}
+.package:before{left:5px}.package:after{right:5px}
+.package-label{z-index:2;width:91%;padding:12px 4px;background:linear-gradient(145deg,#75451d,#321807);border:2px solid #edbd40;border-radius:50% 50% 9px 9px;color:white;box-shadow:0 3px 7px #0003}
+.package-label strong{display:block;color:#ffdf76;font-family:Georgia,serif;font-size:20px;line-height:1.1}
+.package-label small{font-size:9px;letter-spacing:1px}
+.package-price{position:absolute;bottom:0;left:0;right:0;z-index:3;background:linear-gradient(100deg,#102c65,#071b49);border-top:3px solid #e9b632;color:#ffe18a;padding:10px 2px;font-weight:bold;font-size:17px}
+.bread{position:absolute;top:22px;background:linear-gradient(145deg,#ffe09a,#dc913a 68%,#a9541b);box-shadow:inset -7px -7px 9px #87400c55,0 5px 9px #0002}
+.bread.small{width:66px;height:54px;border-radius:50%}
+.bread.medium{width:88px;height:65px;border-radius:45%}
+.bread.large{width:105px;height:77px;border-radius:43%}
+.bread.filled:after{content:"";position:absolute;width:39px;height:11px;background:#603016;border-radius:50%;left:25px;top:29px}
+.bread.topping:after{content:"";position:absolute;width:8px;height:8px;border-radius:50%;background:#542616;left:22px;top:19px;box-shadow:22px 9px #542616,43px -3px #542616,16px 32px #542616,53px 30px #542616}
+.product-card h3{color:#512b13;font-size:20px;margin-bottom:5px}
+.product-card p{color:#78634e;font-size:14px}
+.product-price{font-size:23px;color:#7b3c13;font-weight:bold;margin:10px 0}
+.minimum-note{background:#fff0c7;border:1px dashed #d4a22d;border-radius:12px;padding:16px;text-align:center;color:#684017;margin-top:25px}
+.feature-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;background:#ffedcc;padding:20px;border-radius:14px;margin-top:25px;text-align:center;color:#573416;font-weight:bold}
+.feature-row div{padding:8px;border-right:1px solid #c8a16a}
+.feature-row div:last-child{border:0}
+.panel{background:white;border:1px solid var(--border);border-radius:14px;padding:24px;max-width:850px;margin:20px auto;box-shadow:0 5px 18px #0000000a}
+label{display:block;font-weight:bold;color:#49301c;font-size:14px;margin:12px 0 5px}
+input,select,textarea{width:100%;padding:11px 12px;border:1px solid #d9dce1;border-radius:7px;background:white;color:#33291f}
 textarea{min-height:85px;resize:vertical}
-input:focus,select:focus,textarea:focus{outline:2px solid #d6ad5577;border-color:var(--gold)}
-form .btn{margin-top:16px}
+input:focus,select:focus,textarea:focus{outline:2px solid #f4bd2877;border-color:var(--gold)}
+.order-line{border:1px solid var(--border);padding:14px;border-radius:9px;margin:12px 0}
 .message{margin-top:12px;font-size:14px;overflow-wrap:anywhere}
-.order-line{border:1px solid var(--border);padding:14px;border-radius:8px;margin:12px 0}
-.order-line button{margin-top:8px}
-.result-card{background:white;border:1px solid var(--border);padding:20px;border-radius:10px;margin-top:18px}
-.result-card p{margin:5px 0}
-.status{display:inline-block;padding:4px 9px;border-radius:20px;background:#edf1f6;font-size:12px;font-weight:bold}
-.status.success{background:#e0f4e9;color:#176b45}
-.status.warning{background:#fff1d8;color:#946313}
-.status.process{background:#e4efff;color:#245b9b}
-footer{background:var(--navy);color:white;text-align:center;padding:28px 12px;margin-top:35px}
-footer strong{color:var(--gold)}
+.total-box{background:#fff3d5;padding:14px;border-radius:8px;margin:15px 0;color:#593512}
+.contact-section{background:linear-gradient(120deg,#102b50,#183d68);color:white;border-radius:18px;padding:30px}
+.contact-section h2{color:#ffdc72;text-align:center}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:22px}
+.contact-card{background:#ffffff12;border:1px solid #ffffff35;border-radius:12px;padding:20px}
+.contact-card a{display:inline-block;margin-top:8px;color:#ffdc72;font-weight:bold;text-decoration:none;overflow-wrap:anywhere}
+footer{background:#51290f;color:white;text-align:center;padding:28px 12px;margin-top:30px}
+footer strong{color:#ffdc72}
+
 /* ADMIN */
-#adminPanel{display:none;background:#f3f6fa;padding:28px 0;min-height:80vh}
-.admin-layout{display:grid;grid-template-columns:225px 1fr;gap:22px}
-.sidebar{background:var(--navy);color:white;padding:22px;border-radius:12px;height:max-content;position:sticky;top:90px}
-.sidebar h2{font-size:20px;letter-spacing:1px}
-.sidebar p{color:var(--gold);font-size:12px;margin-bottom:20px}
-.sidebar button{display:block;width:100%;text-align:left;padding:11px 12px;margin:5px 0;border:0;border-radius:6px;background:transparent;color:white}
-.sidebar button:hover,.sidebar button.active{background:var(--navy2);color:var(--gold)}
-.admin-main{min-width:0}
-.admin-main h2{color:var(--navy);margin-bottom:15px}
+#adminPanel{display:none;background:#f3f5f8;padding:28px 0;min-height:80vh}
+.admin-layout{display:grid;grid-template-columns:220px 1fr;gap:20px}
+.sidebar{background:var(--navy);color:white;padding:20px;border-radius:12px;height:max-content;position:sticky;top:90px}
+.sidebar h2{color:#ffdc72;font-size:20px}
+.sidebar p{font-size:11px;color:#d5dbe5;margin-bottom:18px}
+.sidebar button{display:block;width:100%;text-align:left;padding:11px;margin:4px 0;border:0;border-radius:6px;background:transparent;color:white}
+.sidebar button.active,.sidebar button:hover{background:var(--navy2);color:#ffdc72}
 .admin-tab{display:none;background:white;border:1px solid var(--border);border-radius:12px;padding:22px;margin-bottom:18px}
 .admin-tab.active{display:block}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin:18px 0}
-.stat{background:white;border:1px solid var(--border);border-left:4px solid var(--gold);border-radius:9px;padding:18px}
+.admin-main h2{color:var(--navy);margin-bottom:12px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}
+.stat{background:white;border:1px solid var(--border);border-left:4px solid var(--gold);border-radius:9px;padding:16px}
 .stat span{display:block;color:var(--muted);font-size:13px}
-.stat strong{display:block;color:var(--navy);font-size:25px;margin-top:5px;overflow-wrap:anywhere}
-.table-wrap{overflow-x:auto;margin-top:18px}
+.stat strong{display:block;color:var(--navy);font-size:23px;overflow-wrap:anywhere}
+.table-wrap{overflow-x:auto;margin-top:15px}
 table{border-collapse:collapse;width:100%;min-width:650px;font-size:13px}
 th,td{padding:11px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
 th{background:#f1f4f8;color:var(--navy)}
 td button{border:0;padding:6px 9px;border-radius:5px;background:var(--navy);color:white;margin:2px}
 td button.delete{background:#a83c3c}
-.inline-actions{display:flex;gap:7px;flex-wrap:wrap}
 .admin-form{max-width:650px;margin:15px 0}
-.admin-form .btn{margin-right:6px}
 .empty{color:var(--muted);padding:15px 0}
-#adminLogin{display:none}
 @media(max-width:800px){
- .product-grid{grid-template-columns:repeat(2,1fr)}
+ .hero-grid{grid-template-columns:1fr;text-align:center}
+ .hero p{margin-left:auto;margin-right:auto}
+ .hero-product{height:240px}
+ .products-grid{grid-template-columns:repeat(2,1fr)}
  .admin-layout{grid-template-columns:1fr}
  .sidebar{position:static}
  .sidebar button{display:inline-block;width:auto}
@@ -105,49 +125,70 @@ td button.delete{background:#a83c3c}
  .nav{align-items:flex-start;flex-direction:column}
  nav{gap:12px}
  nav a,nav button{font-size:13px}
- .hero{padding:65px 0}
- .product-grid{grid-template-columns:1fr}
- section{padding:42px 0}
- .panel,.admin-tab{padding:17px}
+ .products-grid{grid-template-columns:1fr}
+ .feature-row{grid-template-columns:repeat(2,1fr)}
+ .feature-row div:nth-child(2){border-right:0}
+ .contact-grid{grid-template-columns:1fr}
+ .hero{padding:45px 0}
+ .panel,.admin-tab{padding:16px}
  .stats{grid-template-columns:1fr 1fr}
- .stat strong{font-size:21px}
 }
 </style>
 </head>
-<body>
 
+<body>
 <header>
  <div class="container nav">
   <div class="brand">
-   <h2>ROTI KITA</h2>
-   <span>HANGAT & ISTIMEWA</span>
+   <div class="brand-logo">Roti<br>Kita</div>
+   <div><h2>ROTI KITA</h2><small>HANGAT & ISTIMEWA</small></div>
   </div>
   <nav>
    <a href="#home">Beranda</a>
    <a href="#products">Produk</a>
+   <a href="#contact">Hubungi Kami</a>
    <a href="#order">Pemesanan</a>
-   <a href="#tracking">Cek Pesanan</a>
+   <a href="#tracking">Pesanan Saya</a>
    <button onclick="showLogin()">Admin</button>
   </nav>
  </div>
 </header>
 
 <section class="hero" id="home">
- <div class="container">
-  <div class="eyebrow">PT JAYA MAJU SUKSES</div>
-  <h1>ROTI KITA</h1>
-  <h2>Hangat & Istimewa</h2>
-  <p>Menyediakan pilihan roti berkualitas dengan cita rasa istimewa untuk menemani setiap momen Anda.</p>
-  <a class="btn" href="#products">Lihat Produk</a>
+ <div class="container hero-grid">
+  <div>
+   <p style="font-weight:bold;color:#b17a0a;letter-spacing:3px">PT JAYA MAJU SUKSES</p>
+   <h1>Roti Kita</h1>
+   <h2>Roti Lezat, Harga Bersahabat!</h2>
+   <p>Nikmati setiap gigitan, untuk hari yang lebih baik. Pilihan roti lezat dengan harga yang bersahabat untuk keluarga.</p>
+   <a href="#order" class="btn dark">Pesan Sekarang →</a>
+  </div>
+  <div class="hero-product">
+   <div class="package hero-package">
+    <div class="bread small"></div>
+    <div class="package-label"><strong>Roti Kita</strong><small>HANGAT & ISTIMEWA</small></div>
+    <div class="package-price">Rp2.000</div>
+   </div>
+  </div>
  </div>
 </section>
 
 <section id="products">
  <div class="container">
-  <h2 class="section-title">Produk Kami</h2>
-  <p class="section-subtitle">Pilihan roti Roti Kita</p>
-  <div class="product-grid" id="productList">
+  <h2 class="section-title">Kategori Produk</h2>
+  <p class="section-subtitle">Pilihan roti lezat dengan harga bersahabat.</p>
+  <div class="products-grid" id="productList">
    <p class="empty">Memuat produk...</p>
+  </div>
+  <div class="minimum-note">
+   <strong>PEMESANAN MINIMAL 25 PCS</strong>
+   <p>Bebas memilih dan mencampur semua varian dalam satu pesanan.</p>
+  </div>
+  <div class="feature-row">
+   <div>🏅 Roti Berkualitas</div>
+   <div>⏱️ Proses Cepat</div>
+   <div>🛡️ Pengiriman Aman</div>
+   <div>🎧 Layanan Ramah</div>
   </div>
  </div>
 </section>
@@ -155,7 +196,7 @@ td button.delete{background:#a83c3c}
 <section id="order">
  <div class="container">
   <h2 class="section-title">Pemesanan</h2>
-  <p class="section-subtitle">Isi informasi berikut untuk melakukan pemesanan.</p>
+  <p class="section-subtitle">Pesan roti favoritmu dengan mudah.</p>
   <div class="panel">
    <form id="orderForm">
     <label>Nama pelanggan</label>
@@ -166,15 +207,20 @@ td button.delete{background:#a83c3c}
     <textarea id="customerAddress" required maxlength="500"></textarea>
     <div id="orderItems">
      <div class="order-line">
-      <label>Produk</label>
+      <label>Pilih produk</label>
       <select class="order-product" required></select>
-      <label>Jumlah</label>
-      <input class="order-quantity" type="number" min="1" value="1" required>
+      <label>Jumlah (pcs)</label>
+      <input class="order-quantity" type="number" min="0" value="0" required>
      </div>
     </div>
-    <button class="btn secondary" type="button" onclick="addOrderItem()">+ Tambah produk</button>
-    <button class="btn" type="submit">Kirim pesanan</button>
-    <p class="message" id="orderMessage"></p>
+    <button class="btn blue" type="button" onclick="addOrderItem()">+ Tambah varian</button>
+    <div class="total-box">
+     <b>Total jumlah roti: <span id="totalQty">0</span> pcs</b><br>
+     <b>Perkiraan total harga: <span id="totalPrice">Rp0</span></b>
+     <p style="font-size:13px">Minimal pemesanan 25 pcs. Jumlah seluruh varian boleh digabung.</p>
+    </div>
+    <button class="btn" type="submit">Kirim Pesanan</button>
+    <p id="orderMessage" class="message"></p>
    </form>
   </div>
  </div>
@@ -182,22 +228,43 @@ td button.delete{background:#a83c3c}
 
 <section id="tracking">
  <div class="container">
-  <h2 class="section-title">Cek Pesanan</h2>
-  <p class="section-subtitle">Pantau status pesanan menggunakan nomor pesanan dan nomor telepon.</p>
+  <h2 class="section-title">Pesanan Saya</h2>
+  <p class="section-subtitle">Periksa status pesanan menggunakan nomor pesanan dan nomor telepon.</p>
   <div class="panel">
    <form id="trackForm">
     <label>Nomor pesanan</label>
     <input id="trackOrderNumber" placeholder="Masukkan nomor pesanan" required>
     <label>Nomor telepon</label>
     <input id="trackPhone" type="tel" required>
-    <button class="btn" type="submit">Lacak pesanan</button>
+    <button class="btn" type="submit">Lacak Pesanan</button>
    </form>
    <div id="trackingResult"></div>
   </div>
  </div>
 </section>
 
-<section id="adminLogin">
+<section id="contact">
+ <div class="container">
+  <div class="contact-section">
+   <h2>Hubungi Kami</h2>
+   <p style="text-align:center">Kami siap membantu pertanyaan dan pemesanan Anda.</p>
+   <div class="contact-grid">
+    <div class="contact-card">
+     <h3>✉️ Email Roti Kita</h3>
+     <p>Untuk pertanyaan dan informasi produk.</p>
+     <a href="mailto:roti.kita24@gmail.com">roti.kita24@gmail.com</a>
+    </div>
+    <div class="contact-card">
+     <h3>💬 WhatsApp Roti Kita</h3>
+     <p>Hubungi kami secara langsung.</p>
+     <a href="https://wa.me/6288263548831" target="_blank" rel="noopener">088263548831 – Chat WhatsApp</a>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="adminLogin" style="display:none">
  <div class="container">
   <h2 class="section-title">Login Administrator</h2>
   <div class="panel">
@@ -207,8 +274,8 @@ td button.delete{background:#a83c3c}
     <label>Password</label>
     <input id="adminPassword" type="password" required>
     <button class="btn" type="submit">Login</button>
-    <button class="btn secondary" type="button" onclick="hideLogin()">Tutup</button>
-    <p class="message" id="loginMessage"></p>
+    <button class="btn blue" type="button" onclick="hideLogin()">Tutup</button>
+    <p id="loginMessage" class="message"></p>
    </form>
   </div>
  </div>
@@ -217,8 +284,7 @@ td button.delete{background:#a83c3c}
 <section id="adminPanel">
  <div class="container admin-layout">
   <aside class="sidebar">
-   <h2>ROTI KITA</h2>
-   <p>ADMINISTRATOR</p>
+   <h2>ROTI KITA</h2><p>ADMINISTRATOR</p>
    <button class="active" data-tab="overview" onclick="showTab('overview',this)">Dashboard</button>
    <button data-tab="products" onclick="showTab('products',this)">Kelola Produk</button>
    <button data-tab="orders" onclick="showTab('orders',this)">Pesanan Konsumen</button>
@@ -230,7 +296,7 @@ td button.delete{background:#a83c3c}
   <main class="admin-main">
    <div class="admin-tab active" id="tab-overview">
     <h2>Dashboard Administrator</h2>
-    <p>Ringkasan aktivitas penjualan dan pengelolaan Roti Kita.</p>
+    <p>Ringkasan aktivitas Roti Kita.</p>
     <div class="stats">
      <div class="stat"><span>Total Pesanan</span><strong id="totalOrders">0</strong></div>
      <div class="stat"><span>Total Roti Terjual</span><strong id="totalSold">0</strong></div>
@@ -243,16 +309,12 @@ td button.delete{background:#a83c3c}
     <h2>Kelola Produk</h2>
     <form id="productForm" class="admin-form">
      <input type="hidden" id="productId">
-     <label>Nama produk</label>
-     <input id="productName" required>
-     <label>Harga (Rupiah)</label>
-     <input id="productPrice" type="number" min="1" required>
-     <label>Jumlah stok</label>
-     <input id="productStock" type="number" min="0" required>
-     <label>Deskripsi produk</label>
-     <textarea id="productDescription"></textarea>
-     <button class="btn" type="submit">Simpan produk</button>
-     <button class="btn secondary" type="button" onclick="resetProductForm()">Batal</button>
+     <label>Nama produk</label><input id="productName" required>
+     <label>Harga</label><input id="productPrice" type="number" min="1" required>
+     <label>Jumlah stok</label><input id="productStock" type="number" min="0" required>
+     <label>Deskripsi</label><textarea id="productDescription"></textarea>
+     <button class="btn" type="submit">Simpan Produk</button>
+     <button class="btn blue" type="button" onclick="resetProductForm()">Batal</button>
     </form>
     <div id="productAdminTable"></div>
    </div>
@@ -266,31 +328,24 @@ td button.delete{background:#a83c3c}
     <h2>Distribusi Roti</h2>
     <form id="distributionForm" class="admin-form">
      <input type="hidden" id="distributionId">
-     <label>Pilih pesanan</label>
-     <select id="distributionOrder" required></select>
-     <label>Nama penerima</label>
-     <input id="recipientName" required>
-     <label>Tujuan distribusi</label>
-     <textarea id="distributionDestination" required></textarea>
-     <label>Jumlah roti</label>
-     <input id="breadQuantity" type="number" min="1" required>
-     <label>Tanggal distribusi</label>
-     <input id="distributionDate" type="date" required>
-     <label>Status distribusi</label>
+     <label>Pilih pesanan</label><select id="distributionOrder" required></select>
+     <label>Nama penerima</label><input id="recipientName" required>
+     <label>Tujuan distribusi</label><textarea id="distributionDestination" required></textarea>
+     <label>Jumlah roti</label><input id="breadQuantity" type="number" min="1" required>
+     <label>Tanggal distribusi</label><input id="distributionDate" type="date" required>
+     <label>Status</label>
      <select id="distributionStatus">
-      <option>Menunggu</option>
-      <option>Dalam Pengiriman</option>
-      <option>Terkirim</option>
+      <option>Menunggu</option><option>Dalam Pengiriman</option><option>Terkirim</option>
      </select>
-     <button class="btn" type="submit">Simpan distribusi</button>
-     <button class="btn secondary" type="button" onclick="resetDistributionForm()">Batal</button>
+     <button class="btn" type="submit">Simpan Distribusi</button>
+     <button class="btn blue" type="button" onclick="resetDistributionForm()">Batal</button>
     </form>
     <div id="distributionTable"></div>
    </div>
 
    <div class="admin-tab" id="tab-reports">
     <h2>Laporan</h2>
-    <button class="btn" onclick="exportReport()">Unduh laporan CSV</button>
+    <button class="btn" onclick="exportReport()">Unduh Laporan CSV</button>
     <div id="reportSummary"></div>
     <div id="reportTable"></div>
    </div>
@@ -301,105 +356,139 @@ td button.delete{background:#a83c3c}
 <footer>
  <strong>ROTI KITA</strong>
  <p>Hangat & Istimewa</p>
+ <p>Email: roti.kita24@gmail.com | WhatsApp: 088263548831</p>
  <p>© 2026 PT Jaya Maju Sukses</p>
 </footer>
 
 <script>
 /* KONEKSI SUPABASE */
-const SUPABASE_URL = "https://kwktswcxvqmwcqwrtyqu.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_u4NhbFHgiLNPFpSobCOF9w_Untr4Jzc";
-const db = window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+const SUPABASE_URL="https://kwktswcxvqmwcqwrtyqu.supabase.co";
+const SUPABASE_ANON_KEY="sb_publishable_u4NhbFHgiLNPFpSobCOF9w_Untr4Jzc";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 
-let products = [];
-let adminOrders = [];
-let adminItems = [];
-let adminDistributions = [];
-let currentUser = null;
+let products=[];
+let adminOrders=[];
+let adminItems=[];
+let adminDistributions=[];
+let currentUser=null;
 
-const $ = id => document.getElementById(id);
+const $=id=>document.getElementById(id);
 
-function esc(value) {
- return String(value ?? "").replace(/[&<>"']/g, c => ({
+function esc(v){
+ return String(v??"").replace(/[&<>"']/g,c=>({
   "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
  })[c]);
 }
-function rupiah(value) {
- return "Rp" + Number(value || 0).toLocaleString("id-ID");
+function rupiah(v){
+ return "Rp"+Number(v||0).toLocaleString("id-ID");
 }
-function notify(message) {
- alert(message);
+function productType(name){
+ const n=String(name||"").toLowerCase();
+ if(n.includes("spesial")||n.includes("topping"))return "large topping";
+ if(n.includes("premium")||n.includes("isi"))return "medium filled";
+ return "small";
 }
 
-/* HALAMAN PUBLIK */
-function showLogin() {
- $("adminLogin").style.display = "block";
- $("adminLogin").scrollIntoView({behavior:"smooth"});
-}
-function hideLogin() {
- $("adminLogin").style.display = "none";
-}
-async function loadPublicProducts() {
- const {data,error} = await db.from("products")
+/* KATALOG PRODUK */
+async function loadPublicProducts(){
+ const {data,error}=await db.from("products")
   .select("id,name,description,price,stock_quantity,is_active")
-  .eq("is_active",true)
-  .order("created_at",{ascending:true});
-
- if(error) {
-  $("productList").innerHTML = '<p class="empty">Produk belum dapat dimuat. Silakan coba lagi.</p>';
+  .eq("is_active",true).order("created_at",{ascending:true});
+ if(error){
+  $("productList").innerHTML='<p class="empty">Produk belum dapat dimuat. Periksa koneksi database.</p>';
   return;
  }
- products = data || [];
+ products=data||[];
  renderPublicProducts();
 }
-function renderPublicProducts() {
- if(!products.length) {
-  $("productList").innerHTML = '<p class="empty">Belum ada produk tersedia.</p>';
+function renderPublicProducts(){
+ if(!products.length){
+  $("productList").innerHTML='<p class="empty">Belum ada produk tersedia.</p>';
+  updateProductSelects();
   return;
  }
- $("productList").innerHTML = products.map(p => `
-  <article class="product-card">
-   <div class="bread-icon">🍞</div>
+ $("productList").innerHTML=products.map(p=>{
+  const type=productType(p.name);
+  return `<article class="product-card">
+   <div class="package">
+    <div class="bread ${type}"></div>
+    <div class="package-label"><strong>Roti Kita</strong><small>HANGAT & ISTIMEWA</small></div>
+    <div class="package-price">${rupiah(p.price)}</div>
+   </div>
    <h3>${esc(p.name)}</h3>
-   <p>${esc(p.description || "Roti pilihan dari Roti Kita.")}</p>
-   <p class="price">${rupiah(p.price)}</p>
-   <small>${Number(p.stock_quantity)>0 ? "Stok tersedia: "+Number(p.stock_quantity) : "Stok habis"}</small>
-  </article>
- `).join("");
+   <p>${esc(p.description||"Roti pilihan Roti Kita.")}</p>
+   <div class="product-price">${rupiah(p.price)}</div>
+   <p>${Number(p.stock_quantity)>0?"Stok: "+Number(p.stock_quantity)+" pcs":"Stok habis"}</p>
+  </article>`;
+ }).join("");
  updateProductSelects();
 }
-function updateProductSelects() {
- document.querySelectorAll(".order-product").forEach(select => {
-  const old = select.value;
-  select.innerHTML = '<option value="">Pilih produk</option>' +
-   products.filter(p=>Number(p.stock_quantity)>0).map(p =>
-    `<option value="${p.id}">${esc(p.name)} - ${rupiah(p.price)}</option>`
+function updateProductSelects(){
+ document.querySelectorAll(".order-product").forEach(s=>{
+  const old=s.value;
+  s.innerHTML='<option value="">Pilih produk</option>'+
+   products.filter(p=>Number(p.stock_quantity)>0).map(p=>
+    `<option value="${p.id}">${esc(p.name)} - ${rupiah(p.price)} (Stok ${p.stock_quantity})</option>`
    ).join("");
-  if(products.some(p=>p.id===old)) select.value=old;
+  if(products.some(p=>p.id===old))s.value=old;
  });
+ updateOrderTotal();
 }
-function addOrderItem() {
- const line = document.createElement("div");
- line.className = "order-line";
- line.innerHTML = `
-  <label>Produk</label>
+function addOrderItem(){
+ const div=document.createElement("div");
+ div.className="order-line";
+ div.innerHTML=`<label>Pilih produk</label>
   <select class="order-product" required></select>
-  <label>Jumlah</label>
-  <input class="order-quantity" type="number" min="1" value="1" required>
-  <button class="btn danger" type="button" onclick="this.parentElement.remove()">Hapus baris</button>
- `;
- $("orderItems").appendChild(line);
+  <label>Jumlah (pcs)</label>
+  <input class="order-quantity" type="number" min="0" value="0" required>
+  <button type="button" class="btn red" onclick="this.parentElement.remove();updateOrderTotal()">Hapus varian</button>`;
+ $("orderItems").appendChild(div);
  updateProductSelects();
 }
+function updateOrderTotal(){
+ let qty=0,total=0;
+ document.querySelectorAll(".order-line").forEach(line=>{
+  const id=line.querySelector(".order-product").value;
+  const amount=Number(line.querySelector(".order-quantity").value)||0;
+  const p=products.find(x=>x.id===id);
+  qty+=amount;
+  if(p)total+=amount*Number(p.price);
+ });
+ $("totalQty").textContent=qty;
+ $("totalPrice").textContent=rupiah(total);
+}
+document.addEventListener("change",e=>{
+ if(e.target.matches(".order-product,.order-quantity"))updateOrderTotal();
+});
+document.addEventListener("input",e=>{
+ if(e.target.matches(".order-quantity"))updateOrderTotal();
+});
+
+/* PEMESANAN MINIMAL 25 PCS */
 $("orderForm").addEventListener("submit",async e=>{
  e.preventDefault();
  const message=$("orderMessage");
- const items=[...document.querySelectorAll(".order-line")].map(line=>({
+ const lines=[...document.querySelectorAll(".order-line")];
+ const items=lines.map(line=>({
   product_id:line.querySelector(".order-product").value,
   quantity:Number(line.querySelector(".order-quantity").value)
- }));
- if(!items.length || items.some(i=>!i.product_id || !Number.isInteger(i.quantity) || i.quantity<1)) {
-  message.textContent="Periksa kembali pilihan produk dan jumlahnya.";
+ })).filter(i=>i.product_id&&i.quantity>0);
+
+ const totalQty=items.reduce((s,i)=>s+i.quantity,0);
+ if(totalQty<25){
+  message.textContent="Pesanan belum dapat dikirim. Minimal pembelian adalah 25 pcs gabungan semua varian.";
   return;
+ }
+ if(items.some(i=>!Number.isInteger(i.quantity)||i.quantity<1)){
+  message.textContent="Periksa jumlah produk yang dipesan.";
+  return;
+ }
+ for(const item of items){
+  const p=products.find(x=>x.id===item.product_id);
+  if(!p||item.quantity>Number(p.stock_quantity)){
+   message.textContent="Jumlah pesanan melebihi stok produk yang tersedia.";
+   return;
+  }
  }
  message.textContent="Mengirim pesanan...";
  const {data,error}=await db.rpc("place_public_order",{
@@ -408,46 +497,51 @@ $("orderForm").addEventListener("submit",async e=>{
   p_address:$("customerAddress").value.trim(),
   p_items:items
  });
- if(error) {
+ if(error){
   message.textContent="Pesanan gagal: "+error.message;
   return;
  }
  const result=Array.isArray(data)?data[0]:data;
- message.innerHTML="Pesanan berhasil dibuat. Nomor pesanan: <strong>"+esc(result?.order_number || "-")+"</strong>. Simpan nomor ini untuk melacak pesanan.";
+ message.innerHTML="Pesanan berhasil! Nomor pesanan: <b>"+esc(result?.order_number||"-")+"</b>. Simpan nomor ini untuk melacak pesanan.";
  $("orderForm").reset();
- $("orderItems").innerHTML=`
-  <div class="order-line">
-   <label>Produk</label><select class="order-product" required></select>
-   <label>Jumlah</label><input class="order-quantity" type="number" min="1" value="1" required>
-  </div>`;
+ $("orderItems").innerHTML=`<div class="order-line">
+  <label>Pilih produk</label><select class="order-product" required></select>
+  <label>Jumlah (pcs)</label><input class="order-quantity" type="number" min="0" value="0" required>
+ </div>`;
  await loadPublicProducts();
 });
+
+/* LACAK PESANAN */
 $("trackForm").addEventListener("submit",async e=>{
  e.preventDefault();
- $("trackingResult").innerHTML="Mencari pesanan...";
+ $("trackingResult").textContent="Mencari pesanan...";
  const {data,error}=await db.rpc("track_public_order",{
   p_order_number:$("trackOrderNumber").value.trim(),
   p_phone:$("trackPhone").value.trim()
  });
- const result=Array.isArray(data)?data[0]:data;
- if(error || !result || result.error) {
-  $("trackingResult").innerHTML='<p class="message">Pesanan tidak ditemukan. Periksa nomor pesanan dan nomor telepon.</p>';
+ const r=Array.isArray(data)?data[0]:data;
+ if(error||!r||r.error){
+  $("trackingResult").innerHTML='<p class="message">Pesanan tidak ditemukan. Periksa kembali informasi Anda.</p>';
   return;
  }
- $("trackingResult").innerHTML=`
-  <div class="result-card">
-   <h3>Informasi Pesanan</h3>
-   <p><b>Nomor:</b> ${esc(result.order_number)}</p>
-   <p><b>Nama:</b> ${esc(result.customer_name)}</p>
-   <p><b>Status:</b> <span class="status">${esc(result.status)}</span></p>
-   <p><b>Total:</b> ${rupiah(result.total_amount)}</p>
-   <hr style="margin:12px 0;border:0;border-top:1px solid #e6eaf0">
-   <b>Rincian produk</b>
-   ${(result.items||[]).map(i=>`<p>${esc(i.product_name)} × ${esc(i.quantity)}</p>`).join("")}
-  </div>`;
+ $("trackingResult").innerHTML=`<div class="panel">
+  <h3>Informasi Pesanan</h3>
+  <p><b>Nomor:</b> ${esc(r.order_number)}</p>
+  <p><b>Nama:</b> ${esc(r.customer_name)}</p>
+  <p><b>Status:</b> ${esc(r.status)}</p>
+  <p><b>Total:</b> ${rupiah(r.total_amount)}</p>
+  <hr style="margin:12px 0">
+  <b>Rincian produk</b>
+  ${(r.items||[]).map(i=>`<p>${esc(i.product_name)} × ${esc(i.quantity)}</p>`).join("")}
+ </div>`;
 });
 
 /* LOGIN ADMIN */
+function showLogin(){
+ $("adminLogin").style.display="block";
+ $("adminLogin").scrollIntoView({behavior:"smooth"});
+}
+function hideLogin(){$("adminLogin").style.display="none"}
 $("loginForm").addEventListener("submit",async e=>{
  e.preventDefault();
  $("loginMessage").textContent="Memeriksa akun...";
@@ -455,15 +549,15 @@ $("loginForm").addEventListener("submit",async e=>{
   email:$("adminEmail").value.trim(),
   password:$("adminPassword").value
  });
- if(error) {
+ if(error){
   $("loginMessage").textContent="Login gagal. Periksa email dan password.";
   return;
  }
- const {data:profile,error:profileError}=await db.from("profiles")
+ const {data:profile,error:pe}=await db.from("profiles")
   .select("role").eq("id",data.user.id).single();
- if(profileError || profile.role!=="admin") {
+ if(pe||profile.role!=="admin"){
   await db.auth.signOut();
-  $("loginMessage").textContent="Akun ini tidak memiliki akses administrator.";
+  $("loginMessage").textContent="Akun tidak memiliki akses administrator.";
   return;
  }
  currentUser=data.user;
@@ -473,29 +567,28 @@ $("loginForm").addEventListener("submit",async e=>{
  showTab("overview",document.querySelector('[data-tab="overview"]'));
  $("adminPanel").scrollIntoView({behavior:"smooth"});
 });
-async function adminLogout() {
+async function adminLogout(){
  await db.auth.signOut();
  currentUser=null;
  $("adminPanel").style.display="none";
- $("adminLogin").style.display="none";
- notify("Anda telah keluar dari administrator.");
+ alert("Anda telah keluar.");
 }
 
 /* NAVIGASI ADMIN */
-function showTab(name,button) {
+function showTab(name,button){
  document.querySelectorAll(".admin-tab").forEach(t=>t.classList.remove("active"));
  $("tab-"+name).classList.add("active");
  document.querySelectorAll(".sidebar button[data-tab]").forEach(b=>b.classList.remove("active"));
- if(button) button.classList.add("active");
- if(name==="overview") renderDashboard();
- if(name==="products") renderProductAdmin();
- if(name==="orders") renderOrders();
- if(name==="distribution") renderDistribution();
- if(name==="reports") renderReports();
+ if(button)button.classList.add("active");
+ if(name==="overview")renderDashboard();
+ if(name==="products")renderProductAdmin();
+ if(name==="orders")renderOrders();
+ if(name==="distribution")renderDistribution();
+ if(name==="reports")renderReports();
 }
 
-/* MEMUAT DATA ADMIN */
-async function loadAdminData() {
+/* DATA ADMIN */
+async function loadAdminData(){
  const results=await Promise.all([
   db.from("products").select("*").order("created_at",{ascending:false}),
   db.from("orders").select("*").order("created_at",{ascending:false}),
@@ -503,19 +596,15 @@ async function loadAdminData() {
   db.from("distributions").select("*").order("created_at",{ascending:false})
  ]);
  const [p,o,i,d]=results;
- const failed=results.find(r=>r.error);
- if(failed) {
-  notify("Ada data yang gagal dimuat: "+failed.error.message);
- }
+ const failed=results.find(x=>x.error);
+ if(failed)alert("Sebagian data gagal dimuat: "+failed.error.message);
  products=p.data||[];
  adminOrders=o.data||[];
  adminItems=i.data||[];
  adminDistributions=d.data||[];
  renderDashboard();
 }
-
-/* DASHBOARD */
-function renderDashboard() {
+function renderDashboard(){
  $("totalOrders").textContent=adminOrders.length;
  $("totalSold").textContent=adminItems.reduce((s,i)=>s+Number(i.quantity||0),0);
  $("processingOrders").textContent=adminOrders.filter(o=>
@@ -525,22 +614,16 @@ function renderDashboard() {
 }
 
 /* KELOLA PRODUK */
-function renderProductAdmin() {
- $("productAdminTable").innerHTML=`
-  <h3>Daftar Produk</h3>
-  <div class="table-wrap"><table>
-   <thead><tr><th>Nama Produk</th><th>Harga</th><th>Stok</th><th>Status</th><th>Aksi</th></tr></thead>
-   <tbody>${products.map(p=>`
-    <tr>
-     <td>${esc(p.name)}</td><td>${rupiah(p.price)}</td>
-     <td>${Number(p.stock_quantity)}</td>
-     <td>${p.is_active?"Aktif":"Tidak Aktif"}</td>
-     <td class="inline-actions">
-      <button onclick="editProduct('${p.id}')">Edit</button>
-      <button class="delete" onclick="deactivateProduct('${p.id}')">Nonaktifkan</button>
-     </td>
-    </tr>`).join("")}</tbody>
-  </table></div>`;
+function renderProductAdmin(){
+ $("productAdminTable").innerHTML=`<h3>Daftar Produk</h3>
+ <div class="table-wrap"><table>
+ <thead><tr><th>Produk</th><th>Harga</th><th>Stok</th><th>Status</th><th>Aksi</th></tr></thead>
+ <tbody>${products.map(p=>`<tr>
+ <td>${esc(p.name)}</td><td>${rupiah(p.price)}</td><td>${p.stock_quantity}</td>
+ <td>${p.is_active?"Aktif":"Tidak Aktif"}</td>
+ <td><button onclick="editProduct('${p.id}')">Edit</button>
+ <button class="delete" onclick="deactivateProduct('${p.id}')">Nonaktifkan</button></td>
+ </tr>`).join("")}</tbody></table></div>`;
 }
 $("productForm").addEventListener("submit",async e=>{
  e.preventDefault();
@@ -553,21 +636,17 @@ $("productForm").addEventListener("submit",async e=>{
   is_active:true
  };
  const result=id
-  ? await db.from("products").update(payload).eq("id",id)
-  : await db.from("products").insert(payload);
- if(result.error) {
-  notify("Gagal menyimpan produk: "+result.error.message);
-  return;
- }
- notify("Produk berhasil disimpan.");
+  ?await db.from("products").update(payload).eq("id",id)
+  :await db.from("products").insert(payload);
+ if(result.error){alert("Gagal menyimpan: "+result.error.message);return}
+ alert("Produk berhasil disimpan.");
  resetProductForm();
  await loadAdminData();
  renderProductAdmin();
  renderPublicProducts();
 });
-function editProduct(id) {
- const p=products.find(x=>x.id===id);
- if(!p) return;
+function editProduct(id){
+ const p=products.find(x=>x.id===id);if(!p)return;
  $("productId").value=p.id;
  $("productName").value=p.name;
  $("productPrice").value=p.price;
@@ -575,87 +654,59 @@ function editProduct(id) {
  $("productDescription").value=p.description||"";
  $("productForm").scrollIntoView({behavior:"smooth"});
 }
-function resetProductForm() {
- $("productForm").reset();
- $("productId").value="";
-}
-async function deactivateProduct(id) {
- if(!confirm("Nonaktifkan produk ini dari katalog?")) return;
+function resetProductForm(){$("productForm").reset();$("productId").value=""}
+async function deactivateProduct(id){
+ if(!confirm("Nonaktifkan produk ini?"))return;
  const {error}=await db.from("products").update({is_active:false}).eq("id",id);
- if(error) {
-  notify("Gagal menonaktifkan produk: "+error.message);
-  return;
- }
- await loadAdminData();
- renderProductAdmin();
- renderPublicProducts();
+ if(error){alert(error.message);return}
+ await loadAdminData();renderProductAdmin();renderPublicProducts();
 }
 
-/* PESANAN KONSUMEN */
-function renderOrders() {
- $("ordersTable").innerHTML=`
-  <div class="table-wrap"><table>
-   <thead><tr><th>Nomor</th><th>Pelanggan</th><th>Telepon</th><th>Total</th><th>Status</th><th>Aksi</th></tr></thead>
-   <tbody>${adminOrders.map(o=>`
-    <tr>
-     <td>${esc(o.order_number)}</td>
-     <td>${esc(o.customer_name)}</td>
-     <td>${esc(o.phone)}</td>
-     <td>${rupiah(o.total_amount)}</td>
-     <td><select id="status-${o.id}">
-      ${["Menunggu Konfirmasi","Diproses","Dalam Pengiriman","Tertunda","Terkirim","Dibatalkan"].map(s=>
-       `<option value="${s}" ${o.status===s?"selected":""}>${s}</option>`
-      ).join("")}
-     </select></td>
-     <td><button onclick="updateOrderStatus('${o.id}')">Simpan</button></td>
-    </tr>`).join("")}</tbody>
-  </table></div>`;
+/* PESANAN ADMIN */
+function renderOrders(){
+ $("ordersTable").innerHTML=`<div class="table-wrap"><table>
+ <thead><tr><th>Nomor</th><th>Pelanggan</th><th>Telepon</th><th>Total</th><th>Status</th><th>Aksi</th></tr></thead>
+ <tbody>${adminOrders.map(o=>`<tr>
+ <td>${esc(o.order_number)}</td><td>${esc(o.customer_name)}</td>
+ <td>${esc(o.phone)}</td><td>${rupiah(o.total_amount)}</td>
+ <td><select id="status-${o.id}">
+ ${["Menunggu Konfirmasi","Diproses","Dalam Pengiriman","Tertunda","Terkirim","Dibatalkan"].map(s=>
+ `<option ${o.status===s?"selected":""}>${s}</option>`).join("")}
+ </select></td>
+ <td><button onclick="updateOrderStatus('${o.id}')">Simpan</button></td>
+ </tr>`).join("")}</tbody></table></div>`;
 }
-async function updateOrderStatus(id) {
- const status=$("status-"+id).value;
- const {error}=await db.from("orders").update({status}).eq("id",id);
- if(error) {
-  notify("Gagal memperbarui status: "+error.message);
-  return;
- }
- await loadAdminData();
- renderOrders();
- notify("Status pesanan berhasil diperbarui.");
+async function updateOrderStatus(id){
+ const {error}=await db.from("orders").update({status:$("status-"+id).value}).eq("id",id);
+ if(error){alert(error.message);return}
+ await loadAdminData();renderOrders();alert("Status berhasil diperbarui.");
 }
 
 /* DISTRIBUSI */
-function renderDistribution() {
+function renderDistribution(){
  $("distributionOrder").innerHTML='<option value="">Pilih pesanan</option>'+
-  adminOrders.map(o=>`<option value="${o.id}">${esc(o.order_number)} - ${esc(o.customer_name)}</option>`).join("");
- $("distributionTable").innerHTML=`
-  <h3>Data Distribusi</h3>
-  <div class="table-wrap"><table>
-   <thead><tr><th>Pesanan</th><th>Penerima</th><th>Tujuan</th><th>Jumlah</th><th>Tanggal</th><th>Status</th><th>Aksi</th></tr></thead>
-   <tbody>${adminDistributions.map(d=>{
-    const order=adminOrders.find(o=>o.id===d.order_id);
-    return `<tr>
-     <td>${esc(order?.order_number||"-")}</td>
-     <td>${esc(d.recipient_name)}</td>
-     <td>${esc(d.destination)}</td>
-     <td>${Number(d.bread_quantity)}</td>
-     <td>${esc(d.distribution_date)}</td>
-     <td>${esc(d.status)}</td>
-     <td class="inline-actions">
-      <button onclick="editDistribution('${d.id}')">Edit</button>
-      <button class="delete" onclick="removeDistribution('${d.id}')">Hapus</button>
-     </td>
-    </tr>`;
-   }).join("")}</tbody>
-  </table></div>`;
+ adminOrders.map(o=>`<option value="${o.id}">${esc(o.order_number)} - ${esc(o.customer_name)}</option>`).join("");
+ $("distributionTable").innerHTML=`<h3>Data Distribusi</h3>
+ <div class="table-wrap"><table>
+ <thead><tr><th>Pesanan</th><th>Penerima</th><th>Tujuan</th><th>Jumlah</th><th>Tanggal</th><th>Status</th><th>Aksi</th></tr></thead>
+ <tbody>${adminDistributions.map(d=>{
+ const o=adminOrders.find(x=>x.id===d.order_id);
+ return `<tr><td>${esc(o?.order_number||"-")}</td>
+ <td>${esc(d.recipient_name)}</td><td>${esc(d.destination)}</td>
+ <td>${d.bread_quantity}</td><td>${esc(d.distribution_date)}</td>
+ <td>${esc(d.status)}</td><td>
+ <button onclick="editDistribution('${d.id}')">Edit</button>
+ <button class="delete" onclick="removeDistribution('${d.id}')">Hapus</button>
+ </td></tr>`;
+ }).join("")}</tbody></table></div>`;
 }
 $("distributionOrder").addEventListener("change",()=>{
- const order=adminOrders.find(o=>o.id===$("distributionOrder").value);
- if(!order) return;
- $("recipientName").value=order.customer_name||"";
- $("distributionDestination").value=order.address||"";
- const qty=adminItems.filter(i=>i.order_id===order.id)
-  .reduce((s,i)=>s+Number(i.quantity||0),0);
- $("breadQuantity").value=qty||1;
+ const o=adminOrders.find(x=>x.id===$("distributionOrder").value);
+ if(!o)return;
+ $("recipientName").value=o.customer_name||"";
+ $("distributionDestination").value=o.address||"";
+ $("breadQuantity").value=adminItems.filter(i=>i.order_id===o.id)
+  .reduce((s,i)=>s+Number(i.quantity||0),0)||1;
 });
 $("distributionForm").addEventListener("submit",async e=>{
  e.preventDefault();
@@ -669,20 +720,14 @@ $("distributionForm").addEventListener("submit",async e=>{
   status:$("distributionStatus").value
  };
  const result=id
-  ? await db.from("distributions").update(payload).eq("id",id)
-  : await db.from("distributions").insert(payload);
- if(result.error) {
-  notify("Gagal menyimpan distribusi: "+result.error.message);
-  return;
- }
- notify("Data distribusi berhasil disimpan.");
- resetDistributionForm();
- await loadAdminData();
- renderDistribution();
+  ?await db.from("distributions").update(payload).eq("id",id)
+  :await db.from("distributions").insert(payload);
+ if(result.error){alert(result.error.message);return}
+ alert("Data distribusi disimpan.");
+ resetDistributionForm();await loadAdminData();renderDistribution();
 });
-function editDistribution(id) {
- const d=adminDistributions.find(x=>x.id===id);
- if(!d) return;
+function editDistribution(id){
+ const d=adminDistributions.find(x=>x.id===id);if(!d)return;
  $("distributionId").value=d.id;
  $("distributionOrder").value=d.order_id;
  $("recipientName").value=d.recipient_name;
@@ -692,72 +737,54 @@ function editDistribution(id) {
  $("distributionStatus").value=d.status;
  $("distributionForm").scrollIntoView({behavior:"smooth"});
 }
-function resetDistributionForm() {
- $("distributionForm").reset();
- $("distributionId").value="";
+function resetDistributionForm(){
+ $("distributionForm").reset();$("distributionId").value="";
 }
-async function removeDistribution(id) {
- if(!confirm("Hapus data distribusi ini?")) return;
+async function removeDistribution(id){
+ if(!confirm("Hapus data distribusi?"))return;
  const {error}=await db.from("distributions").delete().eq("id",id);
- if(error) {
-  notify("Gagal menghapus distribusi: "+error.message);
-  return;
- }
- await loadAdminData();
- renderDistribution();
+ if(error){alert(error.message);return}
+ await loadAdminData();renderDistribution();
 }
 
 /* LAPORAN */
-function renderReports() {
+function renderReports(){
  const revenue=adminOrders.filter(o=>o.status!=="Dibatalkan")
   .reduce((s,o)=>s+Number(o.total_amount||0),0);
  const stock=products.reduce((s,p)=>s+Number(p.stock_quantity||0),0);
  const sold=adminItems.reduce((s,i)=>s+Number(i.quantity||0),0);
- $("reportSummary").innerHTML=`
-  <div class="stats">
-   <div class="stat"><span>Total Penjualan</span><strong>${rupiah(revenue)}</strong></div>
-   <div class="stat"><span>Roti Terjual</span><strong>${sold}</strong></div>
-   <div class="stat"><span>Sisa Stok</span><strong>${stock}</strong></div>
-   <div class="stat"><span>Total Distribusi</span><strong>${adminDistributions.length}</strong></div>
-  </div>`;
- $("reportTable").innerHTML=`
-  <h3>Rekap Transaksi</h3>
-  <div class="table-wrap"><table>
-   <thead><tr><th>Nomor</th><th>Pelanggan</th><th>Total</th><th>Status</th><th>Tanggal</th></tr></thead>
-   <tbody>${adminOrders.map(o=>`
-    <tr><td>${esc(o.order_number)}</td><td>${esc(o.customer_name)}</td>
-    <td>${rupiah(o.total_amount)}</td><td>${esc(o.status)}</td>
-    <td>${esc(o.created_at?.slice(0,10)||"-")}</td></tr>`).join("")}</tbody>
-  </table></div>
-  <h3 style="margin-top:22px">Rekap Stok Produk</h3>
-  <div class="table-wrap"><table>
-   <thead><tr><th>Produk</th><th>Harga</th><th>Stok</th><th>Status</th></tr></thead>
-   <tbody>${products.map(p=>`
-    <tr><td>${esc(p.name)}</td><td>${rupiah(p.price)}</td>
-    <td>${Number(p.stock_quantity)}</td><td>${p.is_active?"Aktif":"Tidak Aktif"}</td></tr>`).join("")}</tbody>
-  </table></div>`;
+ $("reportSummary").innerHTML=`<div class="stats">
+ <div class="stat"><span>Total Penjualan</span><strong>${rupiah(revenue)}</strong></div>
+ <div class="stat"><span>Roti Terjual</span><strong>${sold}</strong></div>
+ <div class="stat"><span>Sisa Stok</span><strong>${stock}</strong></div>
+ <div class="stat"><span>Total Distribusi</span><strong>${adminDistributions.length}</strong></div>
+ </div>`;
+ $("reportTable").innerHTML=`<h3>Rekap Transaksi</h3>
+ <div class="table-wrap"><table>
+ <thead><tr><th>Nomor</th><th>Pelanggan</th><th>Total</th><th>Status</th><th>Tanggal</th></tr></thead>
+ <tbody>${adminOrders.map(o=>`<tr><td>${esc(o.order_number)}</td>
+ <td>${esc(o.customer_name)}</td><td>${rupiah(o.total_amount)}</td>
+ <td>${esc(o.status)}</td><td>${esc(o.created_at?.slice(0,10)||"-")}</td></tr>`).join("")}</tbody>
+ </table></div>`;
 }
-function exportReport() {
- const rows=[
-  ["Nomor Pesanan","Pelanggan","Telepon","Total","Status","Tanggal"],
-  ...adminOrders.map(o=>[o.order_number,o.customer_name,o.phone,o.total_amount,o.status,o.created_at?.slice(0,10)||""])
- ];
+function exportReport(){
+ const rows=[["Nomor Pesanan","Pelanggan","Telepon","Total","Status","Tanggal"],
+ ...adminOrders.map(o=>[o.order_number,o.customer_name,o.phone,o.total_amount,o.status,o.created_at?.slice(0,10)||""])];
  const csv=rows.map(row=>row.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\r\n");
  const blob=new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8"});
  const url=URL.createObjectURL(blob);
- const a=document.createElement("a");
- a.href=url;a.download="laporan-roti-kita.csv";a.click();
+ const a=document.createElement("a");a.href=url;a.download="laporan-roti-kita.csv";a.click();
  URL.revokeObjectURL(url);
 }
 
-/* PEMERIKSAAN SESI SAAT HALAMAN DIBUKA */
-async function initializeApp() {
+/* SAAT WEBSITE DIBUKA */
+async function initializeApp(){
  await loadPublicProducts();
  const {data}=await db.auth.getSession();
- if(data.session) {
+ if(data.session){
   const {data:profile}=await db.from("profiles")
    .select("role").eq("id",data.session.user.id).maybeSingle();
-  if(profile?.role==="admin") {
+  if(profile?.role==="admin"){
    currentUser=data.session.user;
    $("adminPanel").style.display="block";
    await loadAdminData();
