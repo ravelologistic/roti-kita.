@@ -1,798 +1,1604 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Roti Kita | PT Jaya Maju Sukses</title>
+<meta name="theme-color" content="#102b50">
+<meta name="description" content="Roti Kita - Roti lezat, harga bersahabat. Hangat dan istimewa untuk keluarga.">
+<title>Roti Kita | Hangat & Istimewa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
-:root {
- --navy:#102b50;
- --navy2:#183d68;
- --gold:#f4bd28;
- --brown:#542b12;
- --cream:#fff8e9;
- --white:#fff;
- --muted:#788292;
- --border:#eadfc9;
- --green:#21865b;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:Arial,sans-serif;background:var(--cream);color:#33291f;line-height:1.6}
-button,input,select,textarea{font:inherit}
-button{cursor:pointer}
-.container{width:min(1150px,92%);margin:auto}
-header{background:#fff5df;position:sticky;top:0;z-index:20;border-bottom:3px solid var(--gold);box-shadow:0 3px 15px #0001}
-.nav{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:12px 0}
-.brand{display:flex;align-items:center;gap:10px}
-.brand-logo{width:54px;height:54px;border-radius:50%;background:linear-gradient(140deg,#ffd84e,#e69c08);border:3px solid #a66b12;display:grid;place-items:center;text-align:center;color:#51270d;font-family:Georgia,serif;font-weight:bold;font-size:13px;line-height:1.05}
-.brand h2{font-family:Georgia,serif;color:var(--brown);font-size:22px}
-.brand small{display:block;color:#986a25;letter-spacing:2px;font-size:10px}
-nav{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
-nav a,nav button{color:#492b18;text-decoration:none;background:none;border:0;font-weight:bold;font-size:14px}
-nav a:hover,nav button:hover{color:#b17a0a}
-.btn{display:inline-block;background:var(--gold);color:#42250e;border:0;border-radius:30px;padding:12px 21px;font-weight:bold;text-decoration:none}
-.btn:hover{filter:brightness(.95)}
-.btn.dark{background:var(--brown);color:white}
-.btn.blue{background:var(--navy);color:white}
-.btn.red{background:#f3dddd;color:#9e3030}
-.hero{background:linear-gradient(90deg,#fff0d0 0%,#ffedca 47%,#b87935 100%);overflow:hidden;padding:65px 0;position:relative}
-.hero-grid{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:25px}
-.hero h1{font-family:Georgia,serif;font-size:clamp(45px,7vw,78px);color:#4d260e;line-height:1.05}
-.hero h2{font-family:Georgia,serif;color:#5b2d13;font-size:clamp(20px,3vw,32px);margin:10px 0}
-.hero p{color:#69452b;margin:15px 0 24px;max-width:450px}
-.hero-product{height:300px;display:grid;place-items:center}
-.hero-package{transform:scale(1.3)}
-.section-title{text-align:center;font-size:32px;color:var(--brown);margin-bottom:7px}
-.section-subtitle{text-align:center;color:var(--muted);margin-bottom:30px}
-section{padding:55px 0}
-.products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-.product-card{background:#fffaf0;border:1px solid #e8d6b5;border-radius:18px;padding:20px;text-align:center;box-shadow:0 7px 20px #6b40101a;transition:.25s}
-.product-card:hover{transform:translateY(-5px);box-shadow:0 12px 25px #6b401022}
-.package{width:155px;height:220px;margin:4px auto 17px;position:relative;border:2px solid #d9d4c9;border-radius:13px 13px 19px 19px;background:linear-gradient(110deg,#ffffffd9,#ffffff66,#ffffffc9);box-shadow:inset 5px 0 10px #fff,3px 8px 13px #0002;overflow:hidden;display:flex;align-items:center;justify-content:center}
-.package:before,.package:after{content:"";position:absolute;top:0;width:7px;height:100%;background:#ffffff80}
-.package:before{left:5px}.package:after{right:5px}
-.package-label{z-index:2;width:91%;padding:12px 4px;background:linear-gradient(145deg,#75451d,#321807);border:2px solid #edbd40;border-radius:50% 50% 9px 9px;color:white;box-shadow:0 3px 7px #0003}
-.package-label strong{display:block;color:#ffdf76;font-family:Georgia,serif;font-size:20px;line-height:1.1}
-.package-label small{font-size:9px;letter-spacing:1px}
-.package-price{position:absolute;bottom:0;left:0;right:0;z-index:3;background:linear-gradient(100deg,#102c65,#071b49);border-top:3px solid #e9b632;color:#ffe18a;padding:10px 2px;font-weight:bold;font-size:17px}
-.bread{position:absolute;top:22px;background:linear-gradient(145deg,#ffe09a,#dc913a 68%,#a9541b);box-shadow:inset -7px -7px 9px #87400c55,0 5px 9px #0002}
-.bread.small{width:66px;height:54px;border-radius:50%}
-.bread.medium{width:88px;height:65px;border-radius:45%}
-.bread.large{width:105px;height:77px;border-radius:43%}
-.bread.filled:after{content:"";position:absolute;width:39px;height:11px;background:#603016;border-radius:50%;left:25px;top:29px}
-.bread.topping:after{content:"";position:absolute;width:8px;height:8px;border-radius:50%;background:#542616;left:22px;top:19px;box-shadow:22px 9px #542616,43px -3px #542616,16px 32px #542616,53px 30px #542616}
-.product-card h3{color:#512b13;font-size:20px;margin-bottom:5px}
-.product-card p{color:#78634e;font-size:14px}
-.product-price{font-size:23px;color:#7b3c13;font-weight:bold;margin:10px 0}
-.minimum-note{background:#fff0c7;border:1px dashed #d4a22d;border-radius:12px;padding:16px;text-align:center;color:#684017;margin-top:25px}
-.feature-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;background:#ffedcc;padding:20px;border-radius:14px;margin-top:25px;text-align:center;color:#573416;font-weight:bold}
-.feature-row div{padding:8px;border-right:1px solid #c8a16a}
-.feature-row div:last-child{border:0}
-.panel{background:white;border:1px solid var(--border);border-radius:14px;padding:24px;max-width:850px;margin:20px auto;box-shadow:0 5px 18px #0000000a}
-label{display:block;font-weight:bold;color:#49301c;font-size:14px;margin:12px 0 5px}
-input,select,textarea{width:100%;padding:11px 12px;border:1px solid #d9dce1;border-radius:7px;background:white;color:#33291f}
-textarea{min-height:85px;resize:vertical}
-input:focus,select:focus,textarea:focus{outline:2px solid #f4bd2877;border-color:var(--gold)}
-.order-line{border:1px solid var(--border);padding:14px;border-radius:9px;margin:12px 0}
-.message{margin-top:12px;font-size:14px;overflow-wrap:anywhere}
-.total-box{background:#fff3d5;padding:14px;border-radius:8px;margin:15px 0;color:#593512}
-.contact-section{background:linear-gradient(120deg,#102b50,#183d68);color:white;border-radius:18px;padding:30px}
-.contact-section h2{color:#ffdc72;text-align:center}
-.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:22px}
-.contact-card{background:#ffffff12;border:1px solid #ffffff35;border-radius:12px;padding:20px}
-.contact-card a{display:inline-block;margin-top:8px;color:#ffdc72;font-weight:bold;text-decoration:none;overflow-wrap:anywhere}
-footer{background:#51290f;color:white;text-align:center;padding:28px 12px;margin-top:30px}
-footer strong{color:#ffdc72}
-
-/* ADMIN */
-#adminPanel{display:none;background:#f3f5f8;padding:28px 0;min-height:80vh}
-.admin-layout{display:grid;grid-template-columns:220px 1fr;gap:20px}
-.sidebar{background:var(--navy);color:white;padding:20px;border-radius:12px;height:max-content;position:sticky;top:90px}
-.sidebar h2{color:#ffdc72;font-size:20px}
-.sidebar p{font-size:11px;color:#d5dbe5;margin-bottom:18px}
-.sidebar button{display:block;width:100%;text-align:left;padding:11px;margin:4px 0;border:0;border-radius:6px;background:transparent;color:white}
-.sidebar button.active,.sidebar button:hover{background:var(--navy2);color:#ffdc72}
-.admin-tab{display:none;background:white;border:1px solid var(--border);border-radius:12px;padding:22px;margin-bottom:18px}
-.admin-tab.active{display:block}
-.admin-main h2{color:var(--navy);margin-bottom:12px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}
-.stat{background:white;border:1px solid var(--border);border-left:4px solid var(--gold);border-radius:9px;padding:16px}
-.stat span{display:block;color:var(--muted);font-size:13px}
-.stat strong{display:block;color:var(--navy);font-size:23px;overflow-wrap:anywhere}
-.table-wrap{overflow-x:auto;margin-top:15px}
-table{border-collapse:collapse;width:100%;min-width:650px;font-size:13px}
-th,td{padding:11px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
-th{background:#f1f4f8;color:var(--navy)}
-td button{border:0;padding:6px 9px;border-radius:5px;background:var(--navy);color:white;margin:2px}
-td button.delete{background:#a83c3c}
-.admin-form{max-width:650px;margin:15px 0}
-.empty{color:var(--muted);padding:15px 0}
-@media(max-width:800px){
- .hero-grid{grid-template-columns:1fr;text-align:center}
- .hero p{margin-left:auto;margin-right:auto}
- .hero-product{height:240px}
- .products-grid{grid-template-columns:repeat(2,1fr)}
- .admin-layout{grid-template-columns:1fr}
- .sidebar{position:static}
- .sidebar button{display:inline-block;width:auto}
- .stats{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:560px){
- .nav{align-items:flex-start;flex-direction:column}
- nav{gap:12px}
- nav a,nav button{font-size:13px}
- .products-grid{grid-template-columns:1fr}
- .feature-row{grid-template-columns:repeat(2,1fr)}
- .feature-row div:nth-child(2){border-right:0}
- .contact-grid{grid-template-columns:1fr}
- .hero{padding:45px 0}
- .panel,.admin-tab{padding:16px}
- .stats{grid-template-columns:1fr 1fr}
-}
+:root{--navy:#102b50;--navy2:#183d68;--gold:#f6bd2d;--gold2:#ffe29a;--cream:#fff7e8;--cream2:#f7ead0;--brown:#54290f;--ink:#2c2119;--muted:#776b60;--white:#fff;--green:#237a54;--red:#b53b35;--shadow:0 16px 40px #39220f18}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:100px}body{margin:0;background:var(--cream);color:var(--ink);font-family:"DM Sans",Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.container{width:min(1180px,92%);margin:auto}.topbar{position:sticky;top:0;z-index:20;background:#fff8e9ed;backdrop-filter:blur(14px);border-bottom:3px solid var(--gold);box-shadow:0 5px 22px #29160712}.navwrap{min-height:92px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--brown);min-width:210px}.brand img{width:82px;height:76px;object-fit:contain}.brand strong{font:900 27px "Playfair Display",serif;letter-spacing:.5px}.brand small{display:block;color:#96743a;letter-spacing:4px;font-size:10px;margin-top:4px}.navlinks{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.navlinks a{padding:12px 15px;text-decoration:none;color:#442815;font-weight:800;border-radius:30px}.navlinks a:hover,.navlinks a.active{background:var(--gold);box-shadow:0 5px 12px #bd841d35}.nav-cta,.btn{border:0;border-radius:30px;padding:13px 21px;font-weight:800;background:var(--gold);color:#40230d;box-shadow:0 7px 18px #9c671e2b}.btn.dark{background:var(--brown);color:white}.btn.blue{background:var(--navy);color:white}.btn.light{background:#fff0c9}.btn.danger{background:#ffe0dc;color:#9a2923}.btn:disabled{opacity:.55;cursor:not-allowed}.menu-toggle{display:none;border:0;background:var(--navy);color:#fff;border-radius:12px;padding:10px 13px;font-size:20px}
+.hero{position:relative;overflow:hidden;background:linear-gradient(105deg,#fff0ce 0%,#fff6e3 48%,#d59a55 100%);min-height:475px;border-bottom:8px solid var(--gold);display:flex;align-items:center}.hero:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,#fff8 0 5%,transparent 35%),radial-gradient(circle at 8% 90%,#f5c65a55,transparent 28%)}.hero-grid{position:relative;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:25px;padding:52px 0}.eyebrow{display:inline-flex;align-items:center;gap:8px;background:#ffdf8b;color:#6c390f;padding:8px 15px;border-radius:30px;font-size:12px;font-weight:900;letter-spacing:1.3px}.hero h1{font:900 clamp(48px,7vw,82px)/.98 "Playfair Display",serif;color:#54290f;margin:20px 0 12px;text-shadow:0 3px 0 #fff8}.hero h2{font:800 clamp(22px,3vw,34px) "Playfair Display",serif;color:#5b2e12;margin:0 0 18px}.hero p{font-size:18px;line-height:1.7;color:#684c34;max-width:560px}.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}.hero-visual{min-height:350px;display:grid;place-items:center;position:relative}.hero-package{transform:rotate(4deg) scale(1.12);filter:drop-shadow(0 22px 18px #4a2b1740)}.hero-note{position:absolute;right:0;bottom:18px;background:#fff8e9;padding:13px 18px;border-radius:18px;color:var(--brown);font-weight:800;box-shadow:var(--shadow)}
+.section{padding:76px 0}.section-head{text-align:center;margin-bottom:35px}.section-head .eyebrow{margin-bottom:12px}.section-head h2{font:900 clamp(32px,5vw,48px) "Playfair Display",serif;color:var(--navy);margin:8px 0}.section-head p{color:var(--muted);font-size:17px;margin:8px auto;max-width:650px}.product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.product-card{background:#fffaf0;border:1px solid #ecd9b9;border-radius:24px;overflow:hidden;box-shadow:var(--shadow);transition:.25s}.product-card:hover{transform:translateY(-7px);box-shadow:0 22px 45px #39220f25}.product-art{height:260px;background:linear-gradient(145deg,#fff4dc,#f3dfbc);display:grid;place-items:center;position:relative;overflow:hidden}.product-art:before{content:"";position:absolute;width:230px;height:230px;border-radius:50%;background:#fff9;filter:blur(1px)}.product-info{padding:20px 22px 23px}.product-info h3{font:800 23px "Playfair Display",serif;color:var(--brown);margin:0 0 7px}.product-info p{color:#746456;line-height:1.55;min-height:48px;margin:0 0 14px}.price{font-size:25px;font-weight:900;color:var(--navy)}.product-meta{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:15px}
+.package{width:170px;height:225px;position:relative;border:3px solid #ffffffd9;border-radius:23px 23px 30px 30px;background:linear-gradient(100deg,#ffffff9c,#ffffff24 25%,#fff9 52%,#ffffff24 80%,#fff9);box-shadow:inset 0 0 0 2px #d8d1c5,0 14px 20px #6b47272c;overflow:hidden;display:flex;align-items:center;flex-direction:column;padding-top:16px}.package:before,.package:after{content:"";position:absolute;top:0;bottom:0;width:9px;background:#ffffff70}.package:before{left:5px}.package:after{right:5px}.bread{position:relative;z-index:1;margin-top:12px;background:linear-gradient(145deg,#ffd77b,#d8892e 65%,#a95016);box-shadow:inset -8px -9px 0 #a85c1d33, inset 0 5px 0 #fff6,0 9px 13px #61330f38}.bread.small{width:91px;height:68px;border-radius:48% 48% 42% 42%;margin-top:27px}.bread.medium{width:112px;height:76px;border-radius:55% 45% 42% 42%;transform:rotate(-8deg);margin-top:21px}.bread.large{width:125px;height:91px;border-radius:50% 50% 38% 38%;margin-top:12px}.bread.filled:after{content:"";position:absolute;left:22%;right:22%;bottom:-3px;height:14px;border-radius:50%;background:#7b3518;opacity:.55}.bread.topping:before{content:"";position:absolute;inset:13px 20px;background:radial-gradient(circle,#6d3218 0 3px,transparent 4px) 0 0/19px 16px,radial-gradient(circle,#fff0c4 0 2px,transparent 3px) 8px 7px/19px 16px}.pack-logo{position:relative;z-index:2;width:116px;height:68px;object-fit:contain;margin-top:-1px;filter:drop-shadow(0 3px 2px #32170755)}.pack-ribbon{position:absolute;z-index:3;bottom:53px;left:-7px;right:-7px;height:35px;background:linear-gradient(100deg,#0d2c62,#174b91,#0b2454);border-top:4px solid var(--gold);border-bottom:3px solid #d7a52d;transform:rotate(-2deg);display:grid;place-items:center;color:#fff0b4;font-weight:900;font-size:12px;letter-spacing:1px}.pack-price{position:absolute;bottom:8px;z-index:4;color:#ffe18a;font-size:17px;font-weight:900;text-shadow:0 2px 3px #071b3c}.features{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:#ffedc9;border-radius:20px;margin-top:35px;box-shadow:var(--shadow);overflow:hidden}.feature{text-align:center;padding:22px 10px;font-weight:800;color:#58300f;border-right:1px solid #c99c5d}.feature:last-child{border:0}.feature span{display:block;font-size:27px;margin-bottom:5px}
+.about-band{background:var(--navy);color:white;border-radius:30px;padding:42px;display:grid;grid-template-columns:1fr 1fr;gap:25px;align-items:center}.about-band h2{font:900 35px "Playfair Display",serif;color:var(--gold2);margin:0 0 12px}.about-band p{line-height:1.8;color:#e6edf7}.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.contact-card{background:var(--navy);color:white;padding:28px;border-radius:22px}.contact-card h3{color:var(--gold2);font-size:21px;margin:0 0 10px}.contact-card a{color:#ffdc79;font-weight:800;text-decoration:none;overflow-wrap:anywhere}.contact-card p{color:#e8edf5}
+.form-card,.panel-card{background:white;border:1px solid #eadfcf;border-radius:22px;padding:26px;box-shadow:var(--shadow)}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}.field label{font-weight:800;color:#49301e}.field input,.field select,.field textarea{width:100%;border:1px solid #d8d1c7;border-radius:12px;padding:13px 14px;background:#fffdf9;color:#30251c;outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:#d89c24;box-shadow:0 0 0 3px #f6bd2d2b}.hint{font-size:13px;color:#76695d;line-height:1.5}.order-line{display:grid;grid-template-columns:1fr 110px;gap:10px;align-items:end;padding:12px 0;border-bottom:1px dashed #e5d6c2}.total-box{display:flex;justify-content:space-between;align-items:center;background:#fff2d2;border-radius:14px;padding:16px;margin:18px 0;font-weight:900;color:var(--brown)}.notice{padding:13px 15px;border-radius:12px;background:#fff2d2;color:#69430d;margin:12px 0}.success{background:#e5f6ed;color:#17623d}.error{background:#ffe9e6;color:#922f27}.track-result{margin-top:20px}.timeline{border-left:3px solid var(--gold);padding-left:20px;margin:15px 0}.timeline-item{position:relative;padding:0 0 17px}.timeline-item:before{content:"";position:absolute;left:-27px;top:4px;width:11px;height:11px;background:var(--gold);border:3px solid white;border-radius:50%;box-shadow:0 0 0 1px #c28b24}.hidden{display:none!important}
+.admin-wrap{background:#f2f5f9;min-height:100vh;padding:35px 0}.admin-shell{display:grid;grid-template-columns:245px 1fr;gap:22px}.admin-side{background:var(--navy);border-radius:22px;padding:22px;color:white;height:max-content;position:sticky;top:110px}.admin-side img{width:115px;height:90px;object-fit:contain;display:block;margin:0 auto 8px}.admin-side h3{text-align:center;color:var(--gold2);margin:0 0 20px}.admin-nav{display:grid;gap:8px}.admin-nav button{border:0;text-align:left;padding:12px;border-radius:11px;background:transparent;color:#e9eff8;font-weight:700}.admin-nav button.active,.admin-nav button:hover{background:var(--gold);color:#44260d}.admin-main{min-width:0}.admin-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}.admin-head h2{font:900 30px "Playfair Display",serif;color:var(--navy);margin:0}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:20px}.stat{background:white;border-radius:17px;padding:19px;box-shadow:var(--shadow);border-top:4px solid var(--gold)}.stat small{color:#756b61;font-weight:700}.stat strong{display:block;font-size:28px;color:var(--navy);margin-top:7px}.admin-section{display:none}.admin-section.active{display:block}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:650px}th,td{padding:12px 11px;border-bottom:1px solid #eee5d9;text-align:left;font-size:13px}th{background:#fff4dc;color:#56300f;white-space:nowrap}td select{padding:7px;border:1px solid #ddd;border-radius:8px}.actions{display:flex;gap:6px;flex-wrap:wrap}.actions .btn{padding:7px 10px;font-size:12px}.login-box{max-width:440px;margin:25px auto}.muted{color:#7b7168}.footer{background:#43210f;color:#ffe8b2;padding:35px 0;margin-top:60px;text-align:center;border-top:7px solid var(--gold)}.footer img{width:100px;height:75px;object-fit:contain}.footer p{margin:6px}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:99;background:#173b62;color:white;padding:13px 19px;border-radius:12px;box-shadow:var(--shadow);max-width:90%;text-align:center}
+@media(max-width:850px){.navwrap{min-height:78px;flex-wrap:wrap;padding:8px 0}.brand img{width:65px;height:60px}.brand strong{font-size:22px}.menu-toggle{display:block}.navlinks{display:none;width:100%;padding:0 0 12px;flex-direction:column;align-items:stretch}.navlinks.open{display:flex}.navlinks a{text-align:center}.nav-cta{display:none}.hero-grid{grid-template-columns:1fr;text-align:center;padding:42px 0}.hero p{margin:auto}.hero-actions{justify-content:center}.hero-visual{min-height:300px}.hero-package{transform:scale(.95)}.product-grid{grid-template-columns:1fr 1fr}.about-band{grid-template-columns:1fr}.admin-shell{grid-template-columns:1fr}.admin-side{position:static}.admin-nav{grid-template-columns:repeat(3,1fr)}.admin-nav button{text-align:center;font-size:12px}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.section{padding:55px 0}.product-grid{grid-template-columns:1fr}.product-art{height:245px}.features{grid-template-columns:1fr 1fr}.feature:nth-child(2){border-right:0}.feature:nth-child(-n+2){border-bottom:1px solid #c99c5d}.form-grid,.contact-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.form-card,.panel-card{padding:18px}.about-band{padding:27px}.stats{gap:9px}.stat{padding:14px}.stat strong{font-size:23px}.admin-nav{grid-template-columns:repeat(2,1fr)}.admin-head{align-items:flex-start;flex-direction:column}.hero h1{font-size:52px}.hero-visual{min-height:270px}.package{transform:scale(.92)}}
 </style>
 </head>
-
 <body>
-<header>
- <div class="container nav">
-  <div class="brand">
-   <div class="brand-logo">Roti<br>Kita</div>
-   <div><h2>ROTI KITA</h2><small>HANGAT & ISTIMEWA</small></div>
+
+<!-- NAVIGASI -->
+<header class="topbar">
+  <div class="container navwrap">
+    <a class="brand" href="#beranda">
+      <img src="logo-roti-kita.png" alt="Logo Roti Kita">
+      <div>
+        <strong>ROTI KITA</strong>
+        <small>HANGAT & ISTIMEWA</small>
+      </div>
+    </a>
+
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+
+    <nav class="navlinks" id="navLinks">
+      <a href="#beranda" onclick="closeMenu()">Beranda</a>
+      <a href="#produk" onclick="closeMenu()">Produk</a>
+      <a href="#pemesanan" onclick="closeMenu()">Pemesanan</a>
+      <a href="#pelacakan" onclick="closeMenu()">Lacak Pesanan</a>
+      <a href="#tentang" onclick="closeMenu()">Tentang Kami</a>
+      <a href="#kontak" onclick="closeMenu()">Kontak</a>
+    </nav>
+
+    <a href="#pemesanan" class="nav-cta">Pesan Sekarang</a>
   </div>
-  <nav>
-   <a href="#home">Beranda</a>
-   <a href="#products">Produk</a>
-   <a href="#contact">Hubungi Kami</a>
-   <a href="#order">Pemesanan</a>
-   <a href="#tracking">Pesanan Saya</a>
-   <button onclick="showLogin()">Admin</button>
-  </nav>
- </div>
 </header>
 
-<section class="hero" id="home">
- <div class="container hero-grid">
-  <div>
-   <p style="font-weight:bold;color:#b17a0a;letter-spacing:3px">PT JAYA MAJU SUKSES</p>
-   <h1>Roti Kita</h1>
-   <h2>Roti Lezat, Harga Bersahabat!</h2>
-   <p>Nikmati setiap gigitan, untuk hari yang lebih baik. Pilihan roti lezat dengan harga yang bersahabat untuk keluarga.</p>
-   <a href="#order" class="btn dark">Pesan Sekarang →</a>
-  </div>
-  <div class="hero-product">
-   <div class="package hero-package">
-    <div class="bread small"></div>
-    <div class="package-label"><strong>Roti Kita</strong><small>HANGAT & ISTIMEWA</small></div>
-    <div class="package-price">Rp2.000</div>
-   </div>
-  </div>
- </div>
-</section>
-
-<section id="products">
- <div class="container">
-  <h2 class="section-title">Kategori Produk</h2>
-  <p class="section-subtitle">Pilihan roti lezat dengan harga bersahabat.</p>
-  <div class="products-grid" id="productList">
-   <p class="empty">Memuat produk...</p>
-  </div>
-  <div class="minimum-note">
-   <strong>PEMESANAN MINIMAL 25 PCS</strong>
-   <p>Bebas memilih dan mencampur semua varian dalam satu pesanan.</p>
-  </div>
-  <div class="feature-row">
-   <div>🏅 Roti Berkualitas</div>
-   <div>⏱️ Proses Cepat</div>
-   <div>🛡️ Pengiriman Aman</div>
-   <div>🎧 Layanan Ramah</div>
-  </div>
- </div>
-</section>
-
-<section id="order">
- <div class="container">
-  <h2 class="section-title">Pemesanan</h2>
-  <p class="section-subtitle">Pesan roti favoritmu dengan mudah.</p>
-  <div class="panel">
-   <form id="orderForm">
-    <label>Nama pelanggan</label>
-    <input id="customerName" required maxlength="100">
-    <label>Nomor telepon</label>
-    <input id="customerPhone" type="tel" required maxlength="30">
-    <label>Alamat pengiriman</label>
-    <textarea id="customerAddress" required maxlength="500"></textarea>
-    <div id="orderItems">
-     <div class="order-line">
-      <label>Pilih produk</label>
-      <select class="order-product" required></select>
-      <label>Jumlah (pcs)</label>
-      <input class="order-quantity" type="number" min="0" value="0" required>
-     </div>
+<!-- BERANDA -->
+<section class="hero" id="beranda">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow">✦ ROTI KITA • HANGAT & ISTIMEWA</span>
+      <h1>ROTI KITA</h1>
+      <h2>Roti Lezat, Harga Bersahabat!</h2>
+      <p>
+        Nikmati pilihan roti dengan berbagai ukuran dan rasa.
+        Dibuat untuk menemani waktu santai dan kebersamaan
+        bersama keluarga.
+      </p>
+      <div class="hero-actions">
+        <a href="#produk" class="btn dark">Lihat Produk</a>
+        <a href="#pemesanan" class="btn">Mulai Pemesanan</a>
+      </div>
     </div>
-    <button class="btn blue" type="button" onclick="addOrderItem()">+ Tambah varian</button>
-    <div class="total-box">
-     <b>Total jumlah roti: <span id="totalQty">0</span> pcs</b><br>
-     <b>Perkiraan total harga: <span id="totalPrice">Rp0</span></b>
-     <p style="font-size:13px">Minimal pemesanan 25 pcs. Jumlah seluruh varian boleh digabung.</p>
+
+    <div class="hero-visual">
+      <div class="hero-package">
+        <div class="package" style="width:205px;height:275px">
+          <div class="bread large topping" style="width:145px;height:105px"></div>
+          <img class="pack-logo" src="logo-roti-kita.png" alt="Logo Roti Kita">
+          <div class="pack-ribbon">HANGAT & ISTIMEWA</div>
+          <div class="pack-price">Rp6.000</div>
+        </div>
+      </div>
+      <div class="hero-note">♡ Dibuat dengan sepenuh hati</div>
     </div>
-    <button class="btn" type="submit">Kirim Pesanan</button>
-    <p id="orderMessage" class="message"></p>
-   </form>
   </div>
- </div>
 </section>
 
-<section id="tracking">
- <div class="container">
-  <h2 class="section-title">Pesanan Saya</h2>
-  <p class="section-subtitle">Periksa status pesanan menggunakan nomor pesanan dan nomor telepon.</p>
-  <div class="panel">
-   <form id="trackForm">
-    <label>Nomor pesanan</label>
-    <input id="trackOrderNumber" placeholder="Masukkan nomor pesanan" required>
-    <label>Nomor telepon</label>
-    <input id="trackPhone" type="tel" required>
-    <button class="btn" type="submit">Lacak Pesanan</button>
-   </form>
-   <div id="trackingResult"></div>
+<!-- KEUNGGULAN -->
+<section class="container">
+  <div class="features">
+    <div class="feature"><span>🍞</span>Roti Pilihan</div>
+    <div class="feature"><span>✨</span>Kemasan Menarik</div>
+    <div class="feature"><span>💛</span>Harga Bersahabat</div>
+    <div class="feature"><span>📦</span>Pemesanan Mudah</div>
   </div>
- </div>
 </section>
 
-<section id="contact">
- <div class="container">
-  <div class="contact-section">
-   <h2>Hubungi Kami</h2>
-   <p style="text-align:center">Kami siap membantu pertanyaan dan pemesanan Anda.</p>
-   <div class="contact-grid">
-    <div class="contact-card">
-     <h3>✉️ Email Roti Kita</h3>
-     <p>Untuk pertanyaan dan informasi produk.</p>
-     <a href="mailto:roti.kita24@gmail.com">roti.kita24@gmail.com</a>
+<!-- PRODUK -->
+<section class="section" id="produk">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">PILIHAN ROTI KAMI</span>
+      <h2>Temukan Roti Favoritmu</h2>
+      <p>Tiga pilihan roti dengan bentuk, ukuran, dan karakter berbeda. Semua menggunakan kemasan khas Roti Kita.</p>
     </div>
-    <div class="contact-card">
-     <h3>💬 WhatsApp Roti Kita</h3>
-     <p>Hubungi kami secara langsung.</p>
-     <a href="https://wa.me/6288263548831" target="_blank" rel="noopener">088263548831 – Chat WhatsApp</a>
+
+    <div class="product-grid" id="productList">
+
+      <!-- PRODUK 1 -->
+      <article class="product-card">
+        <div class="product-art">
+          <div class="package">
+            <div class="bread small"></div>
+            <img class="pack-logo" src="logo-roti-kita.png" alt="Logo Roti Kita">
+            <div class="pack-ribbon">ROTI KITA</div>
+            <div class="pack-price">Rp2.000</div>
+          </div>
+        </div>
+        <div class="product-info">
+          <h3>Roti Kecil / Manis</h3>
+          <p>Roti berukuran kecil dengan bentuk bulat dan tekstur lembut.</p>
+          <div class="product-meta">
+            <span class="price">Rp2.000</span>
+            <span class="hint">Per pcs</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- PRODUK 2 -->
+      <article class="product-card">
+        <div class="product-art">
+          <div class="package">
+            <div class="bread medium filled"></div>
+            <img class="pack-logo" src="logo-roti-kita.png" alt="Logo Roti Kita">
+            <div class="pack-ribbon">ROTI KITA</div>
+            <div class="pack-price">Rp4.000</div>
+          </div>
+        </div>
+        <div class="product-info">
+          <h3>Roti Isi Premium</h3>
+          <p>Roti ukuran sedang berbentuk oval dengan pilihan isian yang lezat.</p>
+          <div class="product-meta">
+            <span class="price">Rp4.000</span>
+            <span class="hint">Per pcs</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- PRODUK 3 -->
+      <article class="product-card">
+        <div class="product-art">
+          <div class="package">
+            <div class="bread large topping"></div>
+            <img class="pack-logo" src="logo-roti-kita.png" alt="Logo Roti Kita">
+            <div class="pack-ribbon">ROTI KITA</div>
+            <div class="pack-price">Rp6.000</div>
+          </div>
+        </div>
+        <div class="product-info">
+          <h3>Roti Spesial / Topping</h3>
+          <p>Roti berukuran besar dengan tampilan topping yang lebih istimewa.</p>
+          <div class="product-meta">
+            <span class="price">Rp6.000</span>
+            <span class="hint">Per pcs</span>
+          </div>
+        </div>
+      </article>
+
     </div>
-   </div>
   </div>
- </div>
 </section>
 
-<section id="adminLogin" style="display:none">
- <div class="container">
-  <h2 class="section-title">Login Administrator</h2>
-  <div class="panel">
-   <form id="loginForm">
-    <label>Email admin</label>
-    <input id="adminEmail" type="email" required>
-    <label>Password</label>
-    <input id="adminPassword" type="password" required>
-    <button class="btn" type="submit">Login</button>
-    <button class="btn blue" type="button" onclick="hideLogin()">Tutup</button>
-    <p id="loginMessage" class="message"></p>
-   </form>
-  </div>
- </div>
-</section>
-
-<section id="adminPanel">
- <div class="container admin-layout">
-  <aside class="sidebar">
-   <h2>ROTI KITA</h2><p>ADMINISTRATOR</p>
-   <button class="active" data-tab="overview" onclick="showTab('overview',this)">Dashboard</button>
-   <button data-tab="products" onclick="showTab('products',this)">Kelola Produk</button>
-   <button data-tab="orders" onclick="showTab('orders',this)">Pesanan Konsumen</button>
-   <button data-tab="distribution" onclick="showTab('distribution',this)">Distribusi</button>
-   <button data-tab="reports" onclick="showTab('reports',this)">Laporan</button>
-   <button onclick="adminLogout()">Keluar</button>
-  </aside>
-
-  <main class="admin-main">
-   <div class="admin-tab active" id="tab-overview">
-    <h2>Dashboard Administrator</h2>
-    <p>Ringkasan aktivitas Roti Kita.</p>
-    <div class="stats">
-     <div class="stat"><span>Total Pesanan</span><strong id="totalOrders">0</strong></div>
-     <div class="stat"><span>Total Roti Terjual</span><strong id="totalSold">0</strong></div>
-     <div class="stat"><span>Pesanan Diproses</span><strong id="processingOrders">0</strong></div>
-     <div class="stat"><span>Pesanan Selesai</span><strong id="completedOrders">0</strong></div>
+<!-- TENTANG KAMI -->
+<section class="section" id="tentang">
+  <div class="container">
+    <div class="about-band">
+      <div>
+        <span class="eyebrow">TENTANG ROTI KITA</span>
+        <h2>Hangat & Istimewa</h2>
+        <p>
+          Roti Kita merupakan bagian dari PT Jaya Maju Sukses
+          yang menghadirkan pilihan roti dengan harga terjangkau
+          dan kemasan yang menarik.
+        </p>
+        <p>
+          Kami ingin menjadikan roti sebagai pilihan camilan
+          yang menyenangkan untuk berbagai kesempatan.
+        </p>
+      </div>
+      <div style="text-align:center">
+        <img src="logo-roti-kita.png" alt="Logo Roti Kita"
+          style="width:min(230px,80%);filter:drop-shadow(0 10px 12px #0005)">
+      </div>
     </div>
-   </div>
-
-   <div class="admin-tab" id="tab-products">
-    <h2>Kelola Produk</h2>
-    <form id="productForm" class="admin-form">
-     <input type="hidden" id="productId">
-     <label>Nama produk</label><input id="productName" required>
-     <label>Harga</label><input id="productPrice" type="number" min="1" required>
-     <label>Jumlah stok</label><input id="productStock" type="number" min="0" required>
-     <label>Deskripsi</label><textarea id="productDescription"></textarea>
-     <button class="btn" type="submit">Simpan Produk</button>
-     <button class="btn blue" type="button" onclick="resetProductForm()">Batal</button>
-    </form>
-    <div id="productAdminTable"></div>
-   </div>
-
-   <div class="admin-tab" id="tab-orders">
-    <h2>Pesanan Konsumen</h2>
-    <div id="ordersTable"></div>
-   </div>
-
-   <div class="admin-tab" id="tab-distribution">
-    <h2>Distribusi Roti</h2>
-    <form id="distributionForm" class="admin-form">
-     <input type="hidden" id="distributionId">
-     <label>Pilih pesanan</label><select id="distributionOrder" required></select>
-     <label>Nama penerima</label><input id="recipientName" required>
-     <label>Tujuan distribusi</label><textarea id="distributionDestination" required></textarea>
-     <label>Jumlah roti</label><input id="breadQuantity" type="number" min="1" required>
-     <label>Tanggal distribusi</label><input id="distributionDate" type="date" required>
-     <label>Status</label>
-     <select id="distributionStatus">
-      <option>Menunggu</option><option>Dalam Pengiriman</option><option>Terkirim</option>
-     </select>
-     <button class="btn" type="submit">Simpan Distribusi</button>
-     <button class="btn blue" type="button" onclick="resetDistributionForm()">Batal</button>
-    </form>
-    <div id="distributionTable"></div>
-   </div>
-
-   <div class="admin-tab" id="tab-reports">
-    <h2>Laporan</h2>
-    <button class="btn" onclick="exportReport()">Unduh Laporan CSV</button>
-    <div id="reportSummary"></div>
-    <div id="reportTable"></div>
-   </div>
-  </main>
- </div>
+  </div>
 </section>
 
-<footer>
- <strong>ROTI KITA</strong>
- <p>Hangat & Istimewa</p>
- <p>Email: roti.kita24@gmail.com | WhatsApp: 088263548831</p>
- <p>© 2026 PT Jaya Maju Sukses</p>
+<!-- PEMESANAN -->
+<section class="section" id="pemesanan">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">PESAN ROTI FAVORITMU</span>
+      <h2>Formulir Pemesanan</h2>
+      <p>Pilih beberapa varian sekaligus. Total seluruh roti harus minimal 25 pcs.</p>
+    </div>
+
+    <div class="form-card">
+      <form id="orderForm">
+        <div class="form-grid">
+          <div class="field">
+            <label for="customer_name">Nama Pelanggan</label>
+            <input id="customer_name" name="customer_name" required placeholder="Masukkan nama lengkap">
+          </div>
+
+          <div class="field">
+            <label for="phone">Nomor WhatsApp</label>
+            <input id="phone" name="phone" type="tel" required placeholder="Contoh: 08xxxxxxxxxx">
+          </div>
+
+          <div class="field full">
+            <label for="address">Alamat Pengiriman</label>
+            <textarea id="address" name="address" rows="3" required placeholder="Masukkan alamat lengkap"></textarea>
+          </div>
+        </div>
+
+        <h3 style="color:#54290f;margin-top:28px">Pilih Varian dan Jumlah</h3>
+        <p class="hint">Jumlah pembelian dari seluruh varian digabungkan, bukan minimal 25 pcs untuk setiap jenis.</p>
+
+        <div id="orderProducts">
+          <div class="order-line">
+            <div>
+              <strong>Roti Kecil / Manis</strong>
+              <div class="hint">Rp2.000 / pcs</div>
+            </div>
+            <input type="number" min="0" value="0" class="order-quantity" data-name="Roti Kecil / Manis" aria-label="Jumlah Roti Kecil">
+          </div>
+
+          <div class="order-line">
+            <div>
+              <strong>Roti Isi Premium</strong>
+              <div class="hint">Rp4.000 / pcs</div>
+            </div>
+            <input type="number" min="0" value="0" class="order-quantity" data-name="Roti Isi Premium" aria-label="Jumlah Roti Premium">
+          </div>
+
+          <div class="order-line">
+            <div>
+              <strong>Roti Spesial / Topping</strong>
+              <div class="hint">Rp6.000 / pcs</div>
+            </div>
+            <input type="number" min="0" value="0" class="order-quantity" data-name="Roti Spesial" aria-label="Jumlah Roti Spesial">
+          </div>
+        </div>
+
+        <div class="notice" id="minimumNotice">
+          Minimal pemesanan adalah <strong>25 pcs gabungan seluruh varian</strong>.
+        </div>
+
+        <div class="total-box">
+          <div>
+            <div>Total Jumlah Roti</div>
+            <strong id="totalQuantity">0 pcs</strong>
+          </div>
+          <div style="text-align:right">
+            <div>Total Pembayaran</div>
+            <strong id="totalPrice">Rp0</strong>
+          </div>
+        </div>
+
+        <button class="btn dark" type="submit" id="submitOrder" style="width:100%">
+          Kirim Pemesanan
+        </button>
+        <div id="orderMessage" class="notice hidden"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- PELACAKAN -->
+<section class="section" id="pelacakan" style="background:#fff0d5">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">INFORMASI PESANAN</span>
+      <h2>Lacak Pesanan Kamu</h2>
+      <p>Masukkan nomor pesanan dan nomor WhatsApp untuk melihat perkembangan pesanan.</p>
+    </div>
+
+    <div class="form-card" style="max-width:650px;margin:auto">
+      <form id="trackForm">
+        <div class="field">
+          <label for="trackOrderNumber">Nomor Pesanan</label>
+          <input id="trackOrderNumber" required placeholder="Contoh: RK-20261108-1234">
+        </div>
+        <div class="field" style="margin-top:14px">
+          <label for="trackPhone">Nomor WhatsApp</label>
+          <input id="trackPhone" type="tel" required placeholder="Nomor saat melakukan pemesanan">
+        </div>
+        <button class="btn dark" type="submit" style="width:100%;margin-top:18px">Periksa Pesanan</button>
+      </form>
+      <div id="trackResult" class="track-result"></div>
+    </div>
+  </div>
+</section>
+
+<!-- KONTAK -->
+<section class="section" id="kontak">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">HUBUNGI KAMI</span>
+      <h2>Kami Siap Membantu</h2>
+      <p>Hubungi Roti Kita untuk informasi produk dan pemesanan.</p>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-card">
+        <h3>✉ Email</h3>
+        <p>Untuk pertanyaan dan informasi lebih lanjut:</p>
+        <a href="mailto:roti.kita24@gmail.com">roti.kita24@gmail.com</a>
+      </div>
+      <div class="contact-card">
+        <h3>☎ WhatsApp</h3>
+        <p>Hubungi kami melalui nomor berikut:</p>
+        <a href="https://wa.me/6288263548831" target="_blank" rel="noopener">088263548831</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOGIN ADMIN -->
+<section class="section" id="admin">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">AREA PENGELOLA</span>
+      <h2>Login Administrator</h2>
+      <p>Halaman khusus pengelola PT Jaya Maju Sukses.</p>
+    </div>
+
+    <div class="form-card login-box" id="loginBox">
+      <form id="loginForm">
+        <div class="field">
+          <label for="adminEmail">Email Admin</label>
+          <input id="adminEmail" type="email" required placeholder="Email administrator">
+        </div>
+        <div class="field" style="margin-top:15px">
+          <label for="adminPassword">Kata Sandi</label>
+          <input id="adminPassword" type="password" required placeholder="Kata sandi">
+        </div>
+        <button class="btn dark" type="submit" style="width:100%;margin-top:20px">Masuk Dashboard</button>
+        <div id="loginMessage" class="notice hidden"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD ADMIN -->
+<section class="admin-wrap hidden" id="adminDashboard">
+  <div class="container admin-shell">
+
+    <aside class="admin-side">
+      <img src="logo-roti-kita.png" alt="Logo Roti Kita">
+      <h3>ADMIN ROTI KITA</h3>
+
+      <div class="admin-nav">
+        <button class="active" data-tab="overview" onclick="showAdminTab('overview',this)">▦ Dashboard</button>
+        <button data-tab="products" onclick="showAdminTab('products',this)">🍞 Produk</button>
+        <button data-tab="orders" onclick="showAdminTab('orders',this)">📦 Pesanan</button>
+        <button data-tab="distribution" onclick="showAdminTab('distribution',this)">🚚 Distribusi</button>
+        <button data-tab="reports" onclick="showAdminTab('reports',this)">📊 Laporan</button>
+        <button onclick="adminLogout()">↪ Keluar</button>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <div class="admin-head">
+        <div>
+          <h2 id="adminPageTitle">Dashboard</h2>
+          <span class="muted">Sistem Informasi Pengelolaan Roti Kita</span>
+        </div>
+        <button class="btn blue" onclick="refreshAdminData()">↻ Refresh Data</button>
+      </div>
+
+      <!-- DASHBOARD -->
+      <section class="admin-section active" id="tab-overview">
+        <div class="stats">
+          <div class="stat">
+            <small>Total Pesanan</small>
+            <strong id="statOrders">0</strong>
+          </div>
+          <div class="stat">
+            <small>Total Roti Terjual</small>
+            <strong id="statSold">0</strong>
+          </div>
+          <div class="stat">
+            <small>Pesanan Diproses</small>
+            <strong id="statProcessing">0</strong>
+          </div>
+          <div class="stat">
+            <small>Pesanan Selesai</small>
+            <strong id="statCompleted">0</strong>
+          </div>
+        </div>
+
+        <div class="panel-card">
+          <h3>Ringkasan Pengelolaan</h3>
+          <p class="muted">Pantau pesanan, produk, dan kegiatan distribusi Roti Kita melalui dashboard ini.</p>
+          <div id="overviewMessage" class="notice">Data dashboard akan dimuat setelah admin masuk.</div>
+        </div>
+      </section>
+
+      <!-- MANAJEMEN PRODUK -->
+      <section class="admin-section" id="tab-products">
+        <div class="panel-card">
+          <h3>Tambah / Edit Produk</h3>
+          <form id="productForm">
+            <input type="hidden" id="productId">
+            <div class="form-grid">
+              <div class="field">
+                <label for="productName">Nama Produk</label>
+                <input id="productName" required placeholder="Nama produk">
+              </div>
+              <div class="field">
+                <label for="productPrice">Harga per pcs</label>
+                <input id="productPrice" type="number" min="1" required placeholder="Contoh: 2000">
+              </div>
+              <div class="field">
+                <label for="productStock">Stok Tersedia</label>
+                <input id="productStock" type="number" min="0" required placeholder="Jumlah stok">
+              </div>
+              <div class="field">
+                <label for="productDescription">Deskripsi Produk</label>
+                <input id="productDescription" placeholder="Deskripsi singkat">
+              </div>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">
+              <button class="btn dark" type="submit">Simpan Produk</button>
+              <button class="btn light" type="button" onclick="resetProductForm()">Bersihkan Form</button>
+            </div>
+          </form>
+          <div id="productMessage"></div>
+        </div>
+
+        <div class="panel-card" style="margin-top:20px">
+          <h3>Daftar Produk</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nama Produk</th>
+                  <th>Harga</th>
+                  <th>Stok</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="adminProductTable">
+                <tr><td colspan="5">Data produk akan ditampilkan di sini.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PESANAN KONSUMEN -->
+      <section class="admin-section" id="tab-orders">
+        <div class="panel-card">
+          <h3>Data Pesanan Konsumen</h3>
+          <p class="muted">Kelola pesanan pelanggan dan perbarui status pemrosesannya.</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>No. Pesanan</th>
+                  <th>Pelanggan</th>
+                  <th>WhatsApp</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="adminOrderTable">
+                <tr><td colspan="6">Data pesanan akan ditampilkan di sini.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- DISTRIBUSI -->
+      <section class="admin-section" id="tab-distribution">
+        <div class="panel-card">
+          <h3>Tambah Data Distribusi</h3>
+          <form id="distributionForm">
+            <input type="hidden" id="distributionId">
+            <div class="form-grid">
+              <div class="field full">
+                <label for="distributionOrder">Pilih Pesanan</label>
+                <select id="distributionOrder" required>
+                  <option value="">Pilih nomor pesanan</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="recipientName">Nama Penerima</label>
+                <input id="recipientName" required placeholder="Nama penerima">
+              </div>
+              <div class="field">
+                <label for="breadQuantity">Jumlah Roti</label>
+                <input id="breadQuantity" type="number" min="1" required>
+              </div>
+              <div class="field full">
+                <label for="destination">Tujuan Distribusi</label>
+                <textarea id="destination" rows="2" required placeholder="Alamat tujuan distribusi"></textarea>
+              </div>
+              <div class="field">
+                <label for="distributionDate">Tanggal Distribusi</label>
+                <input id="distributionDate" type="date" required>
+              </div>
+              <div class="field">
+                <label for="distributionStatus">Status Distribusi</label>
+                <select id="distributionStatus">
+                  <option value="Disiapkan">Disiapkan</option>
+                  <option value="Dalam Pengiriman">Dalam Pengiriman</option>
+                  <option value="Terkirim">Terkirim</option>
+                  <option value="Tertunda">Tertunda</option>
+                </select>
+              </div>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">
+              <button class="btn dark" type="submit">Simpan Distribusi</button>
+              <button class="btn light" type="button" onclick="resetDistributionForm()">Bersihkan Form</button>
+            </div>
+          </form>
+          <div id="distributionMessage"></div>
+        </div>
+
+        <div class="panel-card" style="margin-top:20px">
+          <h3>Data Distribusi</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>No. Pesanan</th>
+                  <th>Penerima</th>
+                  <th>Tujuan</th>
+                  <th>Jumlah Roti</th>
+                  <th>Tanggal</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="adminDistributionTable">
+                <tr><td colspan="7">Data distribusi akan ditampilkan di sini.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- LAPORAN -->
+      <section class="admin-section" id="tab-reports">
+        <div class="panel-card">
+          <h3>Laporan Penjualan dan Pengelolaan</h3>
+          <p class="muted">Ringkasan transaksi, stok produk, dan distribusi.</p>
+          <div class="stats">
+            <div class="stat">
+              <small>Total Transaksi</small>
+              <strong id="reportTransactions">0</strong>
+            </div>
+            <div class="stat">
+              <small>Total Pendapatan</small>
+              <strong id="reportRevenue">Rp0</strong>
+            </div>
+            <div class="stat">
+              <small>Jumlah Produk</small>
+              <strong id="reportProducts">0</strong>
+            </div>
+            <div class="stat">
+              <small>Total Distribusi</small>
+              <strong id="reportDistributions">0</strong>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin:15px 0">
+            <button class="btn dark" onclick="exportReport('orders')">Unduh Laporan Penjualan CSV</button>
+            <button class="btn blue" onclick="exportReport('products')">Unduh Laporan Stok CSV</button>
+            <button class="btn light" onclick="exportReport('distribution')">Unduh Laporan Distribusi CSV</button>
+          </div>
+          <div id="reportMessage" class="notice">Laporan akan tersedia setelah data dimuat.</div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <img src="logo-roti-kita.png" alt="Logo Roti Kita">
+    <h2 style="font-family:'Playfair Display',serif;margin:5px">ROTI KITA</h2>
+    <p>Hangat & Istimewa</p>
+    <p>PT Jaya Maju Sukses</p>
+    <p style="margin-top:18px">Email: roti.kita24@gmail.com</p>
+    <p>WhatsApp: 088263548831</p>
+    <p style="margin-top:20px;font-size:12px">© 2026 Roti Kita. Seluruh hak cipta dilindungi.</p>
+    <p><a href="#admin" style="color:#ffdc79;text-decoration:none;font-size:12px">Administrator</a></p>
+  </div>
 </footer>
 
+<div id="toast" class="toast hidden"></div>
 <script>
-/* KONEKSI SUPABASE */
-const SUPABASE_URL="https://kwktswcxvqmwcqwrtyqu.supabase.co";
-const SUPABASE_ANON_KEY="sb_publishable_u4NhbFHgiLNPFpSobCOF9w_Untr4Jzc";
-const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+/* =========================================
+   KONFIGURASI SUPABASE
+========================================= */
 
-let products=[];
-let adminOrders=[];
-let adminItems=[];
-let adminDistributions=[];
-let currentUser=null;
+const SUPABASE_URL = "https://kwktswcxvqmwcqwrtyqu.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_u4NhbFHgiLNPFpSobCOF9w_Untr4Jzc";
 
-const $=id=>document.getElementById(id);
+const db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
 
-function esc(v){
- return String(v??"").replace(/[&<>"']/g,c=>({
-  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
- })[c]);
-}
-function rupiah(v){
- return "Rp"+Number(v||0).toLocaleString("id-ID");
-}
-function productType(name){
- const n=String(name||"").toLowerCase();
- if(n.includes("spesial")||n.includes("topping"))return "large topping";
- if(n.includes("premium")||n.includes("isi"))return "medium filled";
- return "small";
+const MIN_ORDER = 25;
+
+let publicProducts = [];
+let adminProducts = [];
+let adminOrders = [];
+let adminItems = [];
+let adminDistributions = [];
+let currentAdmin = null;
+
+const rupiah = value =>
+  new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    maximumFractionDigits: 0
+  }).format(Number(value || 0));
+
+const esc = value =>
+  String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  }[char]));
+
+function showMessage(id, message, type = "") {
+  const element = document.getElementById(id);
+  if (!element) return;
+
+  element.className = "notice" + (type ? " " + type : "");
+  element.textContent = message;
+  element.classList.remove("hidden");
 }
 
-/* KATALOG PRODUK */
-async function loadPublicProducts(){
- const {data,error}=await db.from("products")
-  .select("id,name,description,price,stock_quantity,is_active")
-  .eq("is_active",true).order("created_at",{ascending:true});
- if(error){
-  $("productList").innerHTML='<p class="empty">Produk belum dapat dimuat. Periksa koneksi database.</p>';
-  return;
- }
- products=data||[];
- renderPublicProducts();
+function hideMessage(id) {
+  document.getElementById(id)?.classList.add("hidden");
 }
-function renderPublicProducts(){
- if(!products.length){
-  $("productList").innerHTML='<p class="empty">Belum ada produk tersedia.</p>';
-  updateProductSelects();
-  return;
- }
- $("productList").innerHTML=products.map(p=>{
-  const type=productType(p.name);
-  return `<article class="product-card">
-   <div class="package">
-    <div class="bread ${type}"></div>
-    <div class="package-label"><strong>Roti Kita</strong><small>HANGAT & ISTIMEWA</small></div>
-    <div class="package-price">${rupiah(p.price)}</div>
-   </div>
-   <h3>${esc(p.name)}</h3>
-   <p>${esc(p.description||"Roti pilihan Roti Kita.")}</p>
-   <div class="product-price">${rupiah(p.price)}</div>
-   <p>${Number(p.stock_quantity)>0?"Stok: "+Number(p.stock_quantity)+" pcs":"Stok habis"}</p>
-  </article>`;
- }).join("");
- updateProductSelects();
-}
-function updateProductSelects(){
- document.querySelectorAll(".order-product").forEach(s=>{
-  const old=s.value;
-  s.innerHTML='<option value="">Pilih produk</option>'+
-   products.filter(p=>Number(p.stock_quantity)>0).map(p=>
-    `<option value="${p.id}">${esc(p.name)} - ${rupiah(p.price)} (Stok ${p.stock_quantity})</option>`
-   ).join("");
-  if(products.some(p=>p.id===old))s.value=old;
- });
- updateOrderTotal();
-}
-function addOrderItem(){
- const div=document.createElement("div");
- div.className="order-line";
- div.innerHTML=`<label>Pilih produk</label>
-  <select class="order-product" required></select>
-  <label>Jumlah (pcs)</label>
-  <input class="order-quantity" type="number" min="0" value="0" required>
-  <button type="button" class="btn red" onclick="this.parentElement.remove();updateOrderTotal()">Hapus varian</button>`;
- $("orderItems").appendChild(div);
- updateProductSelects();
-}
-function updateOrderTotal(){
- let qty=0,total=0;
- document.querySelectorAll(".order-line").forEach(line=>{
-  const id=line.querySelector(".order-product").value;
-  const amount=Number(line.querySelector(".order-quantity").value)||0;
-  const p=products.find(x=>x.id===id);
-  qty+=amount;
-  if(p)total+=amount*Number(p.price);
- });
- $("totalQty").textContent=qty;
- $("totalPrice").textContent=rupiah(total);
-}
-document.addEventListener("change",e=>{
- if(e.target.matches(".order-product,.order-quantity"))updateOrderTotal();
-});
-document.addEventListener("input",e=>{
- if(e.target.matches(".order-quantity"))updateOrderTotal();
-});
 
-/* PEMESANAN MINIMAL 25 PCS */
-$("orderForm").addEventListener("submit",async e=>{
- e.preventDefault();
- const message=$("orderMessage");
- const lines=[...document.querySelectorAll(".order-line")];
- const items=lines.map(line=>({
-  product_id:line.querySelector(".order-product").value,
-  quantity:Number(line.querySelector(".order-quantity").value)
- })).filter(i=>i.product_id&&i.quantity>0);
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.remove("hidden");
 
- const totalQty=items.reduce((s,i)=>s+i.quantity,0);
- if(totalQty<25){
-  message.textContent="Pesanan belum dapat dikirim. Minimal pembelian adalah 25 pcs gabungan semua varian.";
-  return;
- }
- if(items.some(i=>!Number.isInteger(i.quantity)||i.quantity<1)){
-  message.textContent="Periksa jumlah produk yang dipesan.";
-  return;
- }
- for(const item of items){
-  const p=products.find(x=>x.id===item.product_id);
-  if(!p||item.quantity>Number(p.stock_quantity)){
-   message.textContent="Jumlah pesanan melebihi stok produk yang tersedia.";
-   return;
+  setTimeout(() => toast.classList.add("hidden"), 3500);
+}
+
+function statusClass(status) {
+  const value = String(status || "").toLowerCase();
+
+  if (value.includes("terkirim") || value.includes("selesai")) {
+    return "success";
   }
- }
- message.textContent="Mengirim pesanan...";
- const {data,error}=await db.rpc("place_public_order",{
-  p_customer_name:$("customerName").value.trim(),
-  p_phone:$("customerPhone").value.trim(),
-  p_address:$("customerAddress").value.trim(),
-  p_items:items
- });
- if(error){
-  message.textContent="Pesanan gagal: "+error.message;
-  return;
- }
- const result=Array.isArray(data)?data[0]:data;
- message.innerHTML="Pesanan berhasil! Nomor pesanan: <b>"+esc(result?.order_number||"-")+"</b>. Simpan nomor ini untuk melacak pesanan.";
- $("orderForm").reset();
- $("orderItems").innerHTML=`<div class="order-line">
-  <label>Pilih produk</label><select class="order-product" required></select>
-  <label>Jumlah (pcs)</label><input class="order-quantity" type="number" min="0" value="0" required>
- </div>`;
- await loadPublicProducts();
-});
 
-/* LACAK PESANAN */
-$("trackForm").addEventListener("submit",async e=>{
- e.preventDefault();
- $("trackingResult").textContent="Mencari pesanan...";
- const {data,error}=await db.rpc("track_public_order",{
-  p_order_number:$("trackOrderNumber").value.trim(),
-  p_phone:$("trackPhone").value.trim()
- });
- const r=Array.isArray(data)?data[0]:data;
- if(error||!r||r.error){
-  $("trackingResult").innerHTML='<p class="message">Pesanan tidak ditemukan. Periksa kembali informasi Anda.</p>';
-  return;
- }
- $("trackingResult").innerHTML=`<div class="panel">
-  <h3>Informasi Pesanan</h3>
-  <p><b>Nomor:</b> ${esc(r.order_number)}</p>
-  <p><b>Nama:</b> ${esc(r.customer_name)}</p>
-  <p><b>Status:</b> ${esc(r.status)}</p>
-  <p><b>Total:</b> ${rupiah(r.total_amount)}</p>
-  <hr style="margin:12px 0">
-  <b>Rincian produk</b>
-  ${(r.items||[]).map(i=>`<p>${esc(i.product_name)} × ${esc(i.quantity)}</p>`).join("")}
- </div>`;
-});
+  if (value.includes("tertunda") || value.includes("batal")) {
+    return "error";
+  }
 
-/* LOGIN ADMIN */
-function showLogin(){
- $("adminLogin").style.display="block";
- $("adminLogin").scrollIntoView({behavior:"smooth"});
+  return "";
 }
-function hideLogin(){$("adminLogin").style.display="none"}
-$("loginForm").addEventListener("submit",async e=>{
- e.preventDefault();
- $("loginMessage").textContent="Memeriksa akun...";
- const {data,error}=await db.auth.signInWithPassword({
-  email:$("adminEmail").value.trim(),
-  password:$("adminPassword").value
- });
- if(error){
-  $("loginMessage").textContent="Login gagal. Periksa email dan password.";
-  return;
- }
- const {data:profile,error:pe}=await db.from("profiles")
-  .select("role").eq("id",data.user.id).single();
- if(pe||profile.role!=="admin"){
+
+/* =========================================
+   NAVIGASI
+========================================= */
+
+function toggleMenu() {
+  document.getElementById("navLinks").classList.toggle("open");
+}
+
+function closeMenu() {
+  document.getElementById("navLinks").classList.remove("open");
+}
+
+/* =========================================
+   PRODUK PUBLIK
+========================================= */
+
+async function loadPublicProducts() {
+  const { data, error } = await db
+    .from("products")
+    .select("id,name,description,price,stock_quantity,is_active")
+    .eq("is_active", true)
+    .order("price", { ascending: true });
+
+  if (error) {
+    console.error("Gagal memuat produk:", error);
+    return;
+  }
+
+  publicProducts = data || [];
+
+  const container = document.getElementById("orderProducts");
+
+  if (!publicProducts.length) {
+    container.innerHTML =
+      '<div class="notice">Belum ada produk yang tersedia.</div>';
+    return;
+  }
+
+  container.innerHTML = publicProducts.map(product => `
+    <div class="order-line">
+      <div>
+        <strong>${esc(product.name)}</strong>
+        <div class="hint">
+          ${rupiah(product.price)} / pcs ·
+          Stok: ${Number(product.stock_quantity)}
+        </div>
+      </div>
+      <input
+        type="number"
+        min="0"
+        max="${Number(product.stock_quantity)}"
+        value="0"
+        class="order-quantity"
+        data-id="${esc(product.id)}"
+        data-price="${Number(product.price)}"
+        aria-label="Jumlah ${esc(product.name)}"
+      >
+    </div>
+  `).join("");
+
+  container.querySelectorAll(".order-quantity").forEach(input => {
+    input.addEventListener("input", calculateOrder);
+  });
+
+  calculateOrder();
+}
+
+/* =========================================
+   HITUNG PEMESANAN
+========================================= */
+
+function getOrderItems() {
+  return [...document.querySelectorAll(".order-quantity")]
+    .map(input => ({
+      product_id: input.dataset.id,
+      quantity: Math.max(0, parseInt(input.value, 10) || 0),
+      price: Number(input.dataset.price)
+    }))
+    .filter(item => item.quantity > 0);
+}
+
+function calculateOrder() {
+  const items = getOrderItems();
+
+  const totalQuantity = items.reduce(
+    (sum, item) => sum + item.quantity, 0
+  );
+
+  const totalPrice = items.reduce(
+    (sum, item) => sum + item.quantity * item.price, 0
+  );
+
+  document.getElementById("totalQuantity").textContent =
+    totalQuantity + " pcs";
+
+  document.getElementById("totalPrice").textContent =
+    rupiah(totalPrice);
+
+  const notice = document.getElementById("minimumNotice");
+
+  if (totalQuantity < MIN_ORDER) {
+    notice.textContent =
+      `Jumlah pesanan saat ini ${totalQuantity} pcs. Minimal pemesanan adalah ${MIN_ORDER} pcs gabungan seluruh varian.`;
+  } else {
+    notice.textContent =
+      `Jumlah pesanan memenuhi ketentuan minimal ${MIN_ORDER} pcs.`;
+  }
+
+  return { items, totalQuantity, totalPrice };
+}
+
+/* =========================================
+   KIRIM PEMESANAN
+========================================= */
+
+document.getElementById("orderForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const customerName =
+    document.getElementById("customer_name").value.trim();
+
+  const phone =
+    document.getElementById("phone").value.trim();
+
+  const address =
+    document.getElementById("address").value.trim();
+
+  const order = calculateOrder();
+
+  if (order.totalQuantity < MIN_ORDER) {
+    showMessage(
+      "orderMessage",
+      `Maaf, minimal pemesanan adalah ${MIN_ORDER} pcs. Jumlah seluruh varian boleh digabungkan.`,
+      "error"
+    );
+    return;
+  }
+
+  if (!order.items.length) {
+    showMessage("orderMessage", "Silakan pilih produk terlebih dahulu.", "error");
+    return;
+  }
+
+  const button = document.getElementById("submitOrder");
+  button.disabled = true;
+  button.textContent = "Mengirim Pesanan...";
+
+  try {
+    const { data, error } = await db.rpc("place_public_order", {
+      p_customer_name: customerName,
+      p_phone: phone,
+      p_address: address,
+      p_items: order.items.map(item => ({
+        product_id: item.product_id,
+        quantity: item.quantity
+      }))
+    });
+
+    if (error) throw error;
+
+    const result = Array.isArray(data) ? data[0] : data;
+
+    if (!result || !result.order_number) {
+      throw new Error("Nomor pesanan tidak diterima dari database.");
+    }
+
+    showMessage(
+      "orderMessage",
+      `Pesanan berhasil dikirim! Nomor pesanan kamu: ${result.order_number}. Simpan nomor ini untuk melacak pesanan.`,
+      "success"
+    );
+
+    document.getElementById("orderForm").reset();
+
+    await loadPublicProducts();
+    calculateOrder();
+
+  } catch (error) {
+    console.error(error);
+
+    showMessage(
+      "orderMessage",
+      error.message || "Pesanan gagal dikirim. Silakan coba kembali.",
+      "error"
+    );
+  } finally {
+    button.disabled = false;
+    button.textContent = "Kirim Pemesanan";
+  }
+});
+
+/* =========================================
+   LACAK PESANAN PUBLIK
+========================================= */
+
+document.getElementById("trackForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const orderNumber =
+    document.getElementById("trackOrderNumber").value.trim();
+
+  const phone =
+    document.getElementById("trackPhone").value.trim();
+
+  const resultBox = document.getElementById("trackResult");
+
+  resultBox.innerHTML =
+    '<div class="notice">Sedang memeriksa pesanan...</div>';
+
+  const { data, error } = await db.rpc("track_public_order", {
+    p_order_number: orderNumber,
+    p_phone: phone
+  });
+
+  if (error) {
+    console.error(error);
+    resultBox.innerHTML =
+      '<div class="notice error">Gagal memeriksa pesanan. Silakan coba kembali.</div>';
+    return;
+  }
+
+  const result = Array.isArray(data) ? data[0] : data;
+
+  if (!result || !result.order_number) {
+    resultBox.innerHTML =
+      '<div class="notice error">Pesanan tidak ditemukan. Periksa kembali nomor pesanan dan WhatsApp.</div>';
+    return;
+  }
+
+  const items = Array.isArray(result.items) ? result.items : [];
+
+  resultBox.innerHTML = `
+    <div class="panel-card">
+      <h3>Informasi Pesanan</h3>
+      <p><strong>Nomor:</strong> ${esc(result.order_number)}</p>
+      <p><strong>Nama:</strong> ${esc(result.customer_name)}</p>
+      <p><strong>Status:</strong>
+        <span class="status ${statusClass(result.status)}">
+          ${esc(result.status)}
+        </span>
+      </p>
+      <p><strong>Total:</strong> ${rupiah(result.total_amount)}</p>
+
+      <h4>Rincian Produk</h4>
+      ${items.map(item => `
+        <p>${esc(item.product_name || item.name || "Produk")}
+        — ${Number(item.quantity || 0)} pcs</p>
+      `).join("")}
+
+      <div class="timeline">
+        <div class="timeline-item">Pesanan diterima</div>
+        <div class="timeline-item">Menunggu Konfirmasi</div>
+        <div class="timeline-item">Diproses</div>
+        <div class="timeline-item">Dalam Pengiriman</div>
+        <div class="timeline-item">Terkirim</div>
+      </div>
+      <p class="hint">Status di atas merupakan tahapan pengiriman. Status aktual pesanan ditampilkan pada informasi pesanan.</p>
+    </div>
+  `;
+});
+
+/* =========================================
+   LOGIN ADMIN
+========================================= */
+
+document.getElementById("loginForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const email = document.getElementById("adminEmail").value.trim();
+  const password = document.getElementById("adminPassword").value;
+
+  const button = event.submitter;
+  if (button) {
+    button.disabled = true;
+    button.textContent = "Memeriksa...";
+  }
+
+  try {
+    const { data, error } = await db.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (error) throw error;
+
+    const user = data.user;
+
+    const { data: profile, error: profileError } = await db
+      .from("profiles")
+      .select("id,full_name,role")
+      .eq("id", user.id)
+      .single();
+
+    if (profileError) throw profileError;
+
+    if (!profile || profile.role !== "admin") {
+      await db.auth.signOut();
+      throw new Error("Akun ini tidak memiliki akses administrator.");
+    }
+
+    currentAdmin = user;
+
+    document.getElementById("loginBox").classList.add("hidden");
+    document.getElementById("adminDashboard").classList.remove("hidden");
+
+    showToast("Login administrator berhasil.");
+
+    await refreshAdminData();
+
+    document.getElementById("adminDashboard").scrollIntoView({
+      behavior: "smooth"
+    });
+
+  } catch (error) {
+    showMessage(
+      "loginMessage",
+      error.message || "Login gagal.",
+      "error"
+    );
+  } finally {
+    if (button) {
+      button.disabled = false;
+      button.textContent = "Masuk Dashboard";
+    }
+  }
+});
+
+async function adminLogout() {
   await db.auth.signOut();
-  $("loginMessage").textContent="Akun tidak memiliki akses administrator.";
-  return;
- }
- currentUser=data.user;
- $("adminLogin").style.display="none";
- $("adminPanel").style.display="block";
- await loadAdminData();
- showTab("overview",document.querySelector('[data-tab="overview"]'));
- $("adminPanel").scrollIntoView({behavior:"smooth"});
-});
-async function adminLogout(){
- await db.auth.signOut();
- currentUser=null;
- $("adminPanel").style.display="none";
- alert("Anda telah keluar.");
+
+  currentAdmin = null;
+
+  document.getElementById("adminDashboard").classList.add("hidden");
+  document.getElementById("loginBox").classList.remove("hidden");
+
+  document.getElementById("loginForm").reset();
+
+  showToast("Kamu sudah keluar dari dashboard.");
 }
 
-/* NAVIGASI ADMIN */
-function showTab(name,button){
- document.querySelectorAll(".admin-tab").forEach(t=>t.classList.remove("active"));
- $("tab-"+name).classList.add("active");
- document.querySelectorAll(".sidebar button[data-tab]").forEach(b=>b.classList.remove("active"));
- if(button)button.classList.add("active");
- if(name==="overview")renderDashboard();
- if(name==="products")renderProductAdmin();
- if(name==="orders")renderOrders();
- if(name==="distribution")renderDistribution();
- if(name==="reports")renderReports();
+/* =========================================
+   NAVIGASI DASHBOARD ADMIN
+========================================= */
+
+function showAdminTab(tab, button) {
+  document.querySelectorAll(".admin-section").forEach(section => {
+    section.classList.remove("active");
+  });
+
+  document.getElementById("tab-" + tab)?.classList.add("active");
+
+  document.querySelectorAll(".admin-nav button").forEach(item => {
+    item.classList.remove("active");
+  });
+
+  if (button) button.classList.add("active");
+
+  const titles = {
+    overview: "Dashboard",
+    products: "Manajemen Produk",
+    orders: "Pesanan Konsumen",
+    distribution: "Distribusi",
+    reports: "Laporan"
+  };
+
+  document.getElementById("adminPageTitle").textContent =
+    titles[tab] || "Dashboard";
 }
 
-/* DATA ADMIN */
-async function loadAdminData(){
- const results=await Promise.all([
-  db.from("products").select("*").order("created_at",{ascending:false}),
-  db.from("orders").select("*").order("created_at",{ascending:false}),
-  db.from("order_items").select("*"),
-  db.from("distributions").select("*").order("created_at",{ascending:false})
- ]);
- const [p,o,i,d]=results;
- const failed=results.find(x=>x.error);
- if(failed)alert("Sebagian data gagal dimuat: "+failed.error.message);
- products=p.data||[];
- adminOrders=o.data||[];
- adminItems=i.data||[];
- adminDistributions=d.data||[];
- renderDashboard();
-}
-function renderDashboard(){
- $("totalOrders").textContent=adminOrders.length;
- $("totalSold").textContent=adminItems.reduce((s,i)=>s+Number(i.quantity||0),0);
- $("processingOrders").textContent=adminOrders.filter(o=>
-  ["Menunggu Konfirmasi","Diproses","Dalam Pengiriman","Tertunda"].includes(o.status)
- ).length;
- $("completedOrders").textContent=adminOrders.filter(o=>o.status==="Terkirim").length;
-}
+/* =========================================
+   MEMUAT SELURUH DATA ADMIN
+========================================= */
 
-/* KELOLA PRODUK */
-function renderProductAdmin(){
- $("productAdminTable").innerHTML=`<h3>Daftar Produk</h3>
- <div class="table-wrap"><table>
- <thead><tr><th>Produk</th><th>Harga</th><th>Stok</th><th>Status</th><th>Aksi</th></tr></thead>
- <tbody>${products.map(p=>`<tr>
- <td>${esc(p.name)}</td><td>${rupiah(p.price)}</td><td>${p.stock_quantity}</td>
- <td>${p.is_active?"Aktif":"Tidak Aktif"}</td>
- <td><button onclick="editProduct('${p.id}')">Edit</button>
- <button class="delete" onclick="deactivateProduct('${p.id}')">Nonaktifkan</button></td>
- </tr>`).join("")}</tbody></table></div>`;
-}
-$("productForm").addEventListener("submit",async e=>{
- e.preventDefault();
- const id=$("productId").value;
- const payload={
-  name:$("productName").value.trim(),
-  price:Number($("productPrice").value),
-  stock_quantity:Number($("productStock").value),
-  description:$("productDescription").value.trim(),
-  is_active:true
- };
- const result=id
-  ?await db.from("products").update(payload).eq("id",id)
-  :await db.from("products").insert(payload);
- if(result.error){alert("Gagal menyimpan: "+result.error.message);return}
- alert("Produk berhasil disimpan.");
- resetProductForm();
- await loadAdminData();
- renderProductAdmin();
- renderPublicProducts();
-});
-function editProduct(id){
- const p=products.find(x=>x.id===id);if(!p)return;
- $("productId").value=p.id;
- $("productName").value=p.name;
- $("productPrice").value=p.price;
- $("productStock").value=p.stock_quantity;
- $("productDescription").value=p.description||"";
- $("productForm").scrollIntoView({behavior:"smooth"});
-}
-function resetProductForm(){$("productForm").reset();$("productId").value=""}
-async function deactivateProduct(id){
- if(!confirm("Nonaktifkan produk ini?"))return;
- const {error}=await db.from("products").update({is_active:false}).eq("id",id);
- if(error){alert(error.message);return}
- await loadAdminData();renderProductAdmin();renderPublicProducts();
-}
+async function refreshAdminData() {
+  if (!currentAdmin) return;
 
-/* PESANAN ADMIN */
-function renderOrders(){
- $("ordersTable").innerHTML=`<div class="table-wrap"><table>
- <thead><tr><th>Nomor</th><th>Pelanggan</th><th>Telepon</th><th>Total</th><th>Status</th><th>Aksi</th></tr></thead>
- <tbody>${adminOrders.map(o=>`<tr>
- <td>${esc(o.order_number)}</td><td>${esc(o.customer_name)}</td>
- <td>${esc(o.phone)}</td><td>${rupiah(o.total_amount)}</td>
- <td><select id="status-${o.id}">
- ${["Menunggu Konfirmasi","Diproses","Dalam Pengiriman","Tertunda","Terkirim","Dibatalkan"].map(s=>
- `<option ${o.status===s?"selected":""}>${s}</option>`).join("")}
- </select></td>
- <td><button onclick="updateOrderStatus('${o.id}')">Simpan</button></td>
- </tr>`).join("")}</tbody></table></div>`;
-}
-async function updateOrderStatus(id){
- const {error}=await db.from("orders").update({status:$("status-"+id).value}).eq("id",id);
- if(error){alert(error.message);return}
- await loadAdminData();renderOrders();alert("Status berhasil diperbarui.");
-}
+  showToast("Memperbarui data...");
 
-/* DISTRIBUSI */
-function renderDistribution(){
- $("distributionOrder").innerHTML='<option value="">Pilih pesanan</option>'+
- adminOrders.map(o=>`<option value="${o.id}">${esc(o.order_number)} - ${esc(o.customer_name)}</option>`).join("");
- $("distributionTable").innerHTML=`<h3>Data Distribusi</h3>
- <div class="table-wrap"><table>
- <thead><tr><th>Pesanan</th><th>Penerima</th><th>Tujuan</th><th>Jumlah</th><th>Tanggal</th><th>Status</th><th>Aksi</th></tr></thead>
- <tbody>${adminDistributions.map(d=>{
- const o=adminOrders.find(x=>x.id===d.order_id);
- return `<tr><td>${esc(o?.order_number||"-")}</td>
- <td>${esc(d.recipient_name)}</td><td>${esc(d.destination)}</td>
- <td>${d.bread_quantity}</td><td>${esc(d.distribution_date)}</td>
- <td>${esc(d.status)}</td><td>
- <button onclick="editDistribution('${d.id}')">Edit</button>
- <button class="delete" onclick="removeDistribution('${d.id}')">Hapus</button>
- </td></tr>`;
- }).join("")}</tbody></table></div>`;
-}
-$("distributionOrder").addEventListener("change",()=>{
- const o=adminOrders.find(x=>x.id===$("distributionOrder").value);
- if(!o)return;
- $("recipientName").value=o.customer_name||"";
- $("distributionDestination").value=o.address||"";
- $("breadQuantity").value=adminItems.filter(i=>i.order_id===o.id)
-  .reduce((s,i)=>s+Number(i.quantity||0),0)||1;
-});
-$("distributionForm").addEventListener("submit",async e=>{
- e.preventDefault();
- const id=$("distributionId").value;
- const payload={
-  order_id:$("distributionOrder").value,
-  recipient_name:$("recipientName").value.trim(),
-  destination:$("distributionDestination").value.trim(),
-  bread_quantity:Number($("breadQuantity").value),
-  distribution_date:$("distributionDate").value,
-  status:$("distributionStatus").value
- };
- const result=id
-  ?await db.from("distributions").update(payload).eq("id",id)
-  :await db.from("distributions").insert(payload);
- if(result.error){alert(result.error.message);return}
- alert("Data distribusi disimpan.");
- resetDistributionForm();await loadAdminData();renderDistribution();
-});
-function editDistribution(id){
- const d=adminDistributions.find(x=>x.id===id);if(!d)return;
- $("distributionId").value=d.id;
- $("distributionOrder").value=d.order_id;
- $("recipientName").value=d.recipient_name;
- $("distributionDestination").value=d.destination;
- $("breadQuantity").value=d.bread_quantity;
- $("distributionDate").value=d.distribution_date;
- $("distributionStatus").value=d.status;
- $("distributionForm").scrollIntoView({behavior:"smooth"});
-}
-function resetDistributionForm(){
- $("distributionForm").reset();$("distributionId").value="";
-}
-async function removeDistribution(id){
- if(!confirm("Hapus data distribusi?"))return;
- const {error}=await db.from("distributions").delete().eq("id",id);
- if(error){alert(error.message);return}
- await loadAdminData();renderDistribution();
-}
+  const results = await Promise.all([
+    db.from("products")
+      .select("*")
+      .order("created_at", { ascending: false }),
 
-/* LAPORAN */
-function renderReports(){
- const revenue=adminOrders.filter(o=>o.status!=="Dibatalkan")
-  .reduce((s,o)=>s+Number(o.total_amount||0),0);
- const stock=products.reduce((s,p)=>s+Number(p.stock_quantity||0),0);
- const sold=adminItems.reduce((s,i)=>s+Number(i.quantity||0),0);
- $("reportSummary").innerHTML=`<div class="stats">
- <div class="stat"><span>Total Penjualan</span><strong>${rupiah(revenue)}</strong></div>
- <div class="stat"><span>Roti Terjual</span><strong>${sold}</strong></div>
- <div class="stat"><span>Sisa Stok</span><strong>${stock}</strong></div>
- <div class="stat"><span>Total Distribusi</span><strong>${adminDistributions.length}</strong></div>
- </div>`;
- $("reportTable").innerHTML=`<h3>Rekap Transaksi</h3>
- <div class="table-wrap"><table>
- <thead><tr><th>Nomor</th><th>Pelanggan</th><th>Total</th><th>Status</th><th>Tanggal</th></tr></thead>
- <tbody>${adminOrders.map(o=>`<tr><td>${esc(o.order_number)}</td>
- <td>${esc(o.customer_name)}</td><td>${rupiah(o.total_amount)}</td>
- <td>${esc(o.status)}</td><td>${esc(o.created_at?.slice(0,10)||"-")}</td></tr>`).join("")}</tbody>
- </table></div>`;
-}
-function exportReport(){
- const rows=[["Nomor Pesanan","Pelanggan","Telepon","Total","Status","Tanggal"],
- ...adminOrders.map(o=>[o.order_number,o.customer_name,o.phone,o.total_amount,o.status,o.created_at?.slice(0,10)||""])];
- const csv=rows.map(row=>row.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\r\n");
- const blob=new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8"});
- const url=URL.createObjectURL(blob);
- const a=document.createElement("a");a.href=url;a.download="laporan-roti-kita.csv";a.click();
- URL.revokeObjectURL(url);
-}
+    db.from("orders")
+      .select("*")
+      .order("created_at", { ascending: false }),
 
-/* SAAT WEBSITE DIBUKA */
-async function initializeApp(){
- await loadPublicProducts();
- const {data}=await db.auth.getSession();
- if(data.session){
-  const {data:profile}=await db.from("profiles")
-   .select("role").eq("id",data.session.user.id).maybeSingle();
-  if(profile?.role==="admin"){
-   currentUser=data.session.user;
-   $("adminPanel").style.display="block";
-   await loadAdminData();
-   showTab("overview",document.querySelector('[data-tab="overview"]'));
+    db.from("order_items")
+      .select("*"),
+
+    db.from("distributions")
+      .select("*")
+      .order("created_at", { ascending: false })
+  ]);
+
+  const errors = results.filter(result => result.error);
+
+  if (errors.length) {
+    console.error("Kesalahan memuat data:", errors);
+    showToast("Sebagian data gagal dimuat. Periksa kebijakan database.");
   }
- }
+
+  adminProducts = results[0].data || [];
+  adminOrders = results[1].data || [];
+  adminItems = results[2].data || [];
+  adminDistributions = results[3].data || [];
+
+  renderAdminProducts();
+  renderAdminOrders();
+  renderDistribution();
+  renderOrderOptions();
+  updateDashboardStats();
+  updateReports();
 }
-initializeApp();
+
+function updateDashboardStats() {
+  const totalOrders = adminOrders.length;
+
+  const totalSold = adminItems.reduce(
+    (sum, item) => sum + Number(item.quantity || 0), 0
+  );
+
+  const processing = adminOrders.filter(order =>
+    ["Diproses", "Dalam Pengiriman", "Tertunda"].includes(order.status)
+  ).length;
+
+  const completed = adminOrders.filter(
+    order => order.status === "Terkirim"
+  ).length;
+
+  document.getElementById("statOrders").textContent = totalOrders;
+  document.getElementById("statSold").textContent = totalSold;
+  document.getElementById("statProcessing").textContent = processing;
+  document.getElementById("statCompleted").textContent = completed;
+
+  document.getElementById("overviewMessage").textContent =
+    `Terdapat ${totalOrders} pesanan, ${totalSold} roti terjual, dan ${adminProducts.length} produk terdaftar.`;
+}
+
+/* =========================================
+   MANAJEMEN PRODUK
+========================================= */
+
+function renderAdminProducts() {
+  const table = document.getElementById("adminProductTable");
+
+  if (!adminProducts.length) {
+    table.innerHTML =
+      '<tr><td colspan="5">Belum ada produk.</td></tr>';
+    return;
+  }
+
+  table.innerHTML = adminProducts.map(product => `
+    <tr>
+      <td>${esc(product.name)}</td>
+      <td>${rupiah(product.price)}</td>
+      <td>${Number(product.stock_quantity)}</td>
+      <td>${product.is_active ? "Aktif" : "Tidak Aktif"}</td>
+      <td>
+        <div class="actions">
+          <button class="btn light"
+            onclick="editProduct('${esc(product.id)}')">Edit</button>
+          <button class="btn danger"
+            onclick="deleteProduct('${esc(product.id)}')">Hapus</button>
+        </div>
+      </td>
+    </tr>
+  `).join("");
+}
+
+document.getElementById("productForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const id = document.getElementById("productId").value;
+
+  const product = {
+    name: document.getElementById("productName").value.trim(),
+    price: Number(document.getElementById("productPrice").value),
+    stock_quantity: Number(document.getElementById("productStock").value),
+    description: document.getElementById("productDescription").value.trim(),
+    is_active: true
+  };
+
+  try {
+    let result;
+
+    if (id) {
+      result = await db.from("products").update(product).eq("id", id);
+    } else {
+      result = await db.from("products").insert(product);
+    }
+
+    if (result.error) throw result.error;
+
+    showMessage(
+      "productMessage",
+      id ? "Produk berhasil diperbarui." : "Produk berhasil ditambahkan.",
+      "success"
+    );
+
+    resetProductForm();
+    await refreshAdminData();
+    await loadPublicProducts();
+
+  } catch (error) {
+    showMessage(
+      "productMessage",
+      error.message || "Gagal menyimpan produk.",
+      "error"
+    );
+  }
+});
+
+function editProduct(id) {
+  const product = adminProducts.find(item => item.id === id);
+  if (!product) return;
+
+  document.getElementById("productId").value = product.id;
+  document.getElementById("productName").value = product.name;
+  document.getElementById("productPrice").value = product.price;
+  document.getElementById("productStock").value = product.stock_quantity;
+  document.getElementById("productDescription").value =
+    product.description || "";
+
+  document.getElementById("productForm").scrollIntoView({
+    behavior: "smooth"
+  });
+}
+
+function resetProductForm() {
+  document.getElementById("productForm").reset();
+  document.getElementById("productId").value = "";
+}
+
+async function deleteProduct(id) {
+  const product = adminProducts.find(item => item.id === id);
+  if (!product) return;
+
+  if (!confirm(
+    `Nonaktifkan produk "${product.name}"? Produk tidak akan tampil lagi pada katalog.`
+  )) return;
+
+  const { error } = await db
+    .from("products")
+    .update({ is_active: false })
+    .eq("id", id);
+
+  if (error) {
+    showMessage("productMessage", error.message, "error");
+    return;
+  }
+
+  showToast("Produk berhasil dinonaktifkan.");
+
+  await refreshAdminData();
+  await loadPublicProducts();
+}
+
+/* =========================================
+   MANAJEMEN PESANAN
+========================================= */
+
+function renderAdminOrders() {
+  const table = document.getElementById("adminOrderTable");
+
+  if (!adminOrders.length) {
+    table.innerHTML =
+      '<tr><td colspan="6">Belum ada pesanan konsumen.</td></tr>';
+    return;
+  }
+
+  const statuses = [
+    "Menunggu Konfirmasi",
+    "Diproses",
+    "Dalam Pengiriman",
+    "Tertunda",
+    "Terkirim",
+    "Dibatalkan"
+  ];
+
+  table.innerHTML = adminOrders.map(order => `
+    <tr>
+      <td>${esc(order.order_number)}</td>
+      <td>${esc(order.customer_name)}</td>
+      <td>${esc(order.phone)}</td>
+      <td>${rupiah(order.total_amount)}</td>
+      <td>
+        <select id="orderStatus-${esc(order.id)}">
+          ${statuses.map(status => `
+            <option value="${status}"
+              ${order.status === status ? "selected" : ""}>
+              ${status}
+            </option>
+          `).join("")}
+        </select>
+      </td>
+      <td>
+        <button class="btn dark"
+          onclick="updateOrderStatus('${esc(order.id)}')">
+          Simpan
+        </button>
+      </td>
+    </tr>
+  `).join("");
+}
+
+async function updateOrderStatus(id) {
+  const select = document.getElementById("orderStatus-" + id);
+  if (!select) return;
+
+  const { error } = await db
+    .from("orders")
+    .update({ status: select.value })
+    .eq("id", id);
+
+  if (error) {
+    showToast("Gagal memperbarui status: " + error.message);
+    return;
+  }
+
+  showToast("Status pesanan berhasil diperbarui.");
+  await refreshAdminData();
+}
+
+/* =========================================
+   MANAJEMEN DISTRIBUSI
+========================================= */
+
+function renderOrderOptions() {
+  const select = document.getElementById("distributionOrder");
+
+  select.innerHTML =
+    '<option value="">Pilih nomor pesanan</option>' +
+    adminOrders.map(order => `
+      <option value="${esc(order.id)}">
+        ${esc(order.order_number)} - ${esc(order.customer_name)}
+      </option>
+    `).join("");
+}
+
+document.getElementById("distributionOrder").addEventListener("change", event => {
+  const order = adminOrders.find(item => item.id === event.target.value);
+  if (!order) return;
+
+  document.getElementById("recipientName").value = order.customer_name;
+  document.getElementById("destination").value = order.address || "";
+
+  const quantity = adminItems
+    .filter(item => item.order_id === order.id)
+    .reduce((sum, item) => sum + Number(item.quantity || 0), 0);
+
+  document.getElementById("breadQuantity").value = quantity;
+});
+
+document.getElementById("distributionForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const id = document.getElementById("distributionId").value;
+
+  const distribution = {
+    order_id: document.getElementById("distributionOrder").value,
+    recipient_name: document.getElementById("recipientName").value.trim(),
+    destination: document.getElementById("destination").value.trim(),
+    bread_quantity: Number(document.getElementById("breadQuantity").value),
+    distribution_date: document.getElementById("distributionDate").value,
+    status: document.getElementById("distributionStatus").value
+  };
+
+  try {
+    let result;
+
+    if (id) {
+      result = await db.from("distributions")
+        .update(distribution)
+        .eq("id", id);
+    } else {
+      result = await db.from("distributions")
+        .insert(distribution);
+    }
+
+    if (result.error) throw result.error;
+
+    showMessage(
+      "distributionMessage",
+      id ? "Data distribusi berhasil diperbarui." : "Data distribusi berhasil ditambahkan.",
+      "success"
+    );
+
+    resetDistributionForm();
+    await refreshAdminData();
+
+  } catch (error) {
+    showMessage(
+      "distributionMessage",
+      error.message || "Gagal menyimpan data distribusi.",
+      "error"
+    );
+  }
+});
+
+function renderDistribution() {
+  const table = document.getElementById("adminDistributionTable");
+
+  if (!adminDistributions.length) {
+    table.innerHTML =
+      '<tr><td colspan="7">Belum ada data distribusi.</td></tr>';
+    return;
+  }
+
+  table.innerHTML = adminDistributions.map(distribution => {
+    const order = adminOrders.find(
+      item => item.id === distribution.order_id
+    );
+
+    return `
+      <tr>
+        <td>${esc(order?.order_number || "-")}</td>
+        <td>${esc(distribution.recipient_name)}</td>
+        <td>${esc(distribution.destination)}</td>
+        <td>${Number(distribution.bread_quantity)}</td>
+        <td>${esc(distribution.distribution_date)}</td>
+        <td>${esc(distribution.status)}</td>
+        <td>
+          <div class="actions">
+            <button class="btn light"
+              onclick="editDistribution('${esc(distribution.id)}')">
+              Edit
+            </button>
+            <button class="btn danger"
+              onclick="deleteDistribution('${esc(distribution.id)}')">
+              Hapus
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+function editDistribution(id) {
+  const item = adminDistributions.find(row => row.id === id);
+  if (!item) return;
+
+  document.getElementById("distributionId").value = item.id;
+  document.getElementById("distributionOrder").value = item.order_id;
+  document.getElementById("recipientName").value = item.recipient_name;
+  document.getElementById("destination").value = item.destination;
+  document.getElementById("breadQuantity").value = item.bread_quantity;
+  document.getElementById("distributionDate").value =
+    item.distribution_date;
+  document.getElementById("distributionStatus").value = item.status;
+
+  document.getElementById("distributionForm").scrollIntoView({
+    behavior: "smooth"
+  });
+}
+
+function resetDistributionForm() {
+  document.getElementById("distributionForm").reset();
+  document.getElementById("distributionId").value = "";
+}
+
+async function deleteDistribution(id) {
+  if (!confirm("Hapus data distribusi ini?")) return;
+
+  const { error } = await db
+    .from("distributions")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    showToast("Gagal menghapus: " + error.message);
+    return;
+  }
+
+  showToast("Data distribusi berhasil dihapus.");
+  await refreshAdminData();
+}
+
+/* =========================================
+   LAPORAN
+========================================= */
+
+function updateReports() {
+  const revenue = adminOrders
+    .filter(order => order.status !== "Dibatalkan")
+    .reduce((sum, order) => sum + Number(order.total_amount || 0), 0);
+
+  document.getElementById("reportTransactions").textContent =
+    adminOrders.length;
+
+  document.getElementById("reportRevenue").textContent =
+    rupiah(revenue);
+
+  document.getElementById("reportProducts").textContent =
+    adminProducts.length;
+
+  document.getElementById("reportDistributions").textContent =
+    adminDistributions.length;
+
+  document.getElementById("reportMessage").textContent =
+    "Laporan berhasil diperbarui berdasarkan data dari database.";
+}
+
+function exportReport(type) {
+  let rows = [];
+  let filename = "laporan-roti-kita.csv";
+
+  if (type === "orders") {
+    filename = "laporan-penjualan-roti-kita.csv";
+
+    rows = [
+      ["Nomor Pesanan", "Pelanggan", "WhatsApp", "Alamat", "Total", "Status", "Tanggal"],
+      ...adminOrders.map(order => [
+        order.order_number,
+        order.customer_name,
+        order.phone,
+        order.address,
+        order.total_amount,
+        order.status,
+        order.created_at
+      ])
+    ];
+  }
+
+  if (type === "products") {
+    filename = "laporan-stok-roti-kita.csv";
+
+    rows = [
+      ["Nama Produk", "Harga", "Stok", "Status"],
+      ...adminProducts.map(product => [
+        product.name,
+        product.price,
+        product.stock_quantity,
+        product.is_active ? "Aktif" : "Tidak Aktif"
+      ])
+    ];
+  }
+
+  if (type === "distribution") {
+    filename = "laporan-distribusi-roti-kita.csv";
+
+    rows = [
+      ["Nomor Pesanan", "Penerima", "Tujuan", "Jumlah Roti", "Tanggal", "Status"],
+      ...adminDistributions.map(item => {
+        const order = adminOrders.find(row => row.id === item.order_id);
+
+        return [
+          order?.order_number || "",
+          item.recipient_name,
+          item.destination,
+          item.bread_quantity,
+          item.distribution_date,
+          item.status
+        ];
+      })
+    ];
+  }
+
+  const csv = rows.map(row =>
+    row.map(value =>
+      '"' + String(value ?? "").replace(/"/g, '""') + '"'
+    ).join(",")
+  ).join("\r\n");
+
+  const blob = new Blob(
+    ["\uFEFF" + csv],
+    { type: "text/csv;charset=utf-8;" }
+  );
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = filename;
+  link.click();
+
+  URL.revokeObjectURL(url);
+  showToast("Laporan berhasil disiapkan.");
+}
+
+/* =========================================
+   PEMERIKSAAN LOGIN SAAT HALAMAN DIBUKA
+========================================= */
+
+async function checkExistingSession() {
+  const { data } = await db.auth.getSession();
+
+  if (!data.session) return;
+
+  const user = data.session.user;
+
+  const { data: profile, error } = await db
+    .from("profiles")
+    .select("id,full_name,role")
+    .eq("id", user.id)
+    .single();
+
+  if (error || !profile || profile.role !== "admin") return;
+
+  currentAdmin = user;
+
+  document.getElementById("loginBox").classList.add("hidden");
+  document.getElementById("adminDashboard").classList.remove("hidden");
+
+  await refreshAdminData();
+}
+
+/* =========================================
+   MULAI APLIKASI
+========================================= */
+
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadPublicProducts();
+  await checkExistingSession();
+
+  document.getElementById("distributionDate").value =
+    new Date().toISOString().slice(0, 10);
+});
+
 </script>
+
 </body>
 </html>
