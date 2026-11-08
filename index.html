@@ -24,6 +24,7 @@
 </style>
 </head>
 <body>
+<div id="customerPage">
 
 <!-- NAVIGASI -->
 <header class="topbar">
@@ -45,6 +46,7 @@
       <a href="#pelacakan" onclick="closeMenu()">Lacak Pesanan</a>
       <a href="#tentang" onclick="closeMenu()">Tentang Kami</a>
       <a href="#kontak" onclick="closeMenu()">Kontak</a>
+      <a href="#admin" onclick="closeMenu();showSitePage('admin')">Admin</a>
     </nav>
 
     <a href="#pemesanan" class="nav-cta">Pesan Sekarang</a>
@@ -324,6 +326,10 @@
   </div>
 </section>
 
+
+</div>
+
+<div id="adminPage" class="hidden">
 <!-- LOGIN ADMIN -->
 <section class="section" id="admin">
   <div class="container">
@@ -589,6 +595,10 @@
     </main>
   </div>
 </section>
+
+
+<div style="text-align:center;padding:18px"><a class="btn light" href="#beranda" onclick="showSitePage('customer')">← Kembali ke Halaman Pelanggan</a></div>
+</div>
 
 <!-- FOOTER -->
 <footer class="footer">
@@ -1590,7 +1600,32 @@ async function checkExistingSession() {
    MULAI APLIKASI
 ========================================= */
 
+
+/* =========================================
+   NAVIGASI DUA HALAMAN DALAM SATU INDEX.HTML
+========================================= */
+function showSitePage(page) {
+  const customer = document.getElementById("customerPage");
+  const admin = document.getElementById("adminPage");
+  if (!customer || !admin) return;
+
+  const isAdmin = page === "admin";
+  customer.classList.toggle("hidden", isAdmin);
+  admin.classList.toggle("hidden", !isAdmin);
+
+  if (isAdmin) {
+    window.scrollTo(0, 0);
+  } else {
+    window.scrollTo(0, 0);
+  }
+}
+
+window.addEventListener("hashchange", () => {
+  showSitePage(window.location.hash === "#admin" ? "admin" : "customer");
+});
+
 document.addEventListener("DOMContentLoaded", async () => {
+  showSitePage(window.location.hash === "#admin" ? "admin" : "customer");
   await loadPublicProducts();
   await checkExistingSession();
 
