@@ -1,259 +1,480 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Roti Kita | PT Jaya Maju Sukses</title>
+<meta name="description" content="Sistem informasi penjualan dan distribusi Roti Kita - PT Jaya Maju Sukses.">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root {
-  --brown:#70452c;
-  --gold:#c69b55;
-  --cream:#faf5eb;
-  --white:#fff;
-  --text:#382b22;
-}
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:var(--cream);
-  color:var(--text);
-}
-header{
-  background:var(--brown);
-  color:white;
-  padding:17px 22px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.logo{font-size:21px;font-weight:bold}
-.logo small{display:block;font-size:10px;font-weight:normal}
-button{
-  cursor:pointer;
-  border:0;
-  border-radius:8px;
-  padding:11px 15px;
-  background:var(--gold);
-  color:white;
-  font-weight:bold;
-}
-.layout{display:flex;min-height:calc(100vh - 65px)}
-nav{
-  width:220px;
-  background:#fff;
-  padding:20px 12px;
-  flex-shrink:0;
-}
-nav button{
-  width:100%;
-  text-align:left;
-  background:transparent;
-  color:var(--text);
-  margin:4px 0;
-}
-nav button.active,nav button:hover{
-  background:#f1e5d1;color:var(--brown);
-}
-main{padding:25px;width:100%;min-width:0}
-h2{color:var(--brown)}
-.welcome{
-  background:linear-gradient(120deg,#70452c,#b17c4b);
-  color:white;
-  padding:28px;
-  border-radius:15px;
-  margin-bottom:22px;
-}
-.welcome h2{color:white;font-size:26px}
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:13px;
-}
-.card,.panel{
-  background:white;
-  border-radius:12px;
-  padding:19px;
-  box-shadow:0 3px 12px #00000008;
-}
-.card strong{display:block;font-size:25px;color:var(--brown);margin-top:10px}
-.panel{margin-top:20px}
-input,select{
-  width:100%;
-  padding:12px;
-  border:1px solid #ddd;
-  border-radius:8px;
-  margin:7px 0 15px;
-}
-table{width:100%;border-collapse:collapse}
-th,td{
-  text-align:left;padding:12px;
-  border-bottom:1px solid #eee;
-}
-th{background:#f6eee2}
-.hidden{display:none}
-footer{text-align:center;padding:20px;color:#806d5c}
-@media(max-width:700px){
- .layout{display:block}
- nav{
-  width:100%;display:flex;overflow-x:auto;
-  padding:8px;gap:5px;
- }
- nav button{width:auto;white-space:nowrap;font-size:12px}
- main{padding:15px}
- .stats{grid-template-columns:repeat(2,1fr)}
- .welcome{padding:20px}
- table{font-size:12px}
-}
+:root{--brown:#542b13;--brown2:#713d1d;--gold:#f5b51b;--gold2:#ffcf4a;--cream:#fff8e9;--cream2:#f7ead0;--green:#26734d;--red:#b64232;--muted:#806f5d;--line:#ead8b8;--white:#fff}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--brown);font-family:Arial,Helvetica,sans-serif;line-height:1.5}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}.wrap{width:min(1160px,92%);margin:auto}.topbar{position:sticky;top:0;z-index:20;background:#fffaf0ed;backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}.nav{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:22px;color:var(--brown);text-decoration:none}.brand-mark{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 28%,#ffe78a,#f4a900 65%,#9d4c08);border:3px solid #8d4a0d;color:#fff;text-shadow:1px 2px 2px #542b13;box-shadow:0 3px 8px #7b4b2433;font-family:Georgia,serif;font-style:italic;font-weight:bold;line-height:.85;text-align:center}.brand-mark small{display:block;font-size:9px}.navlinks{display:flex;gap:20px;align-items:center;flex-wrap:wrap}.navlinks a{color:var(--brown);font-weight:700;text-decoration:none}.btn{padding:11px 17px;border-radius:999px;background:var(--gold);color:#40200d;font-weight:800;box-shadow:0 3px 0 #d28e08}.btn:hover{filter:brightness(1.04);transform:translateY(-1px)}.btn.dark{background:var(--brown);color:#fff;box-shadow:0 3px 0 #321606}.btn.light{background:#fff;border:1px solid var(--line);box-shadow:none}.btn.danger{background:#fae0d9;color:#8c281b;box-shadow:none}.hero{padding:58px 0 45px;background:radial-gradient(circle at 80% 30%,#f4c15a 0,transparent 28%),linear-gradient(115deg,#fff7e7,#f5dfb8);overflow:hidden}.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:35px}.eyebrow{font-weight:900;color:#a56516;text-transform:uppercase;letter-spacing:2px;font-size:12px}.hero h1{font-family:Georgia,serif;font-size:clamp(42px,6vw,72px);line-height:1.02;margin:12px 0;color:#4b250f}.hero h1 span{color:#d58b08}.hero p{font-size:18px;max-width:520px;color:#6b452b}.hero-art{min-height:300px;display:grid;place-items:center;position:relative}.hero-bread{width:min(310px,80%);height:260px;border-radius:28px 28px 45px 45px;background:linear-gradient(145deg,#fff,#e9e3d5 35%,#fff 58%,#d5d0c5);border:5px solid #fff;box-shadow:0 20px 35px #68401d40;transform:rotate(5deg);position:relative;display:flex;align-items:center;justify-content:center}.hero-bread:before{content:"";position:absolute;inset:12px;border:1px dashed #d5c5a9;border-radius:20px 20px 35px 35px}.bread-label{z-index:1;width:86%;padding:24px 10px;text-align:center;border-radius:50%;background:radial-gradient(circle,#ffd85b,#e99a08);border:4px double #8a4a0c;box-shadow:0 5px 10px #62300b55;color:#51270e;font-family:Georgia,serif;font-size:32px;font-style:italic;font-weight:bold;text-shadow:1px 1px #fff}.bread-label small{display:block;font:italic bold 10px Arial;background:#123e78;color:#fff;padding:5px;margin-top:9px;border-radius:3px}.hero-price{position:absolute;bottom:5px;right:0;background:#123e78;color:white;padding:9px 18px;border-radius:8px;font-weight:900;transform:rotate(-4deg)}.section{padding:48px 0}.section-head{text-align:center;margin-bottom:26px}.section-head h2{font-family:Georgia,serif;font-size:34px;margin:0 0 7px}.section-head p{color:var(--muted);margin:0}.products{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.product{background:#fffdf8;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 8px 22px #6d421315}.pack{height:190px;display:grid;place-items:center;background:linear-gradient(135deg,#f8f0df,#fff);border-radius:14px;margin-bottom:15px;overflow:hidden}.pack-wrap{width:145px;height:165px;position:relative;border:2px solid #d9d5cb;border-radius:9px 9px 16px 16px;background:linear-gradient(110deg,#ffffffd9,#e9e7df99,#ffffffd9);box-shadow:0 9px 14px #5c3a2030;display:grid;place-items:center}.pack-wrap:after{content:"";position:absolute;bottom:0;left:0;right:0;height:37%;background:linear-gradient(120deg,#0d3470,#1756a1);clip-path:polygon(0 22%,100% 0,100% 100%,0 100%)}.pack-logo{z-index:1;width:112px;height:90px;border-radius:50%;background:radial-gradient(circle,#ffe27b,#e99b0b);border:3px double #6e390e;display:grid;place-items:center;text-align:center;color:#54270c;font:italic bold 23px Georgia;line-height:.85;text-shadow:1px 1px white}.pack-logo small{font:italic bold 8px Arial;display:block}.pack-price{position:absolute;z-index:2;bottom:9px;left:0;right:0;color:white;text-align:center;font-size:12px;font-weight:900}.product h3{margin:0;font-size:20px}.price{font-size:25px;color:#a75d06;font-weight:900;margin:6px 0}.product p{color:var(--muted);min-height:42px;margin:0 0 14px}.product .btn{width:100%}.features{background:#ffedc9;padding:20px 0}.feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;text-align:center;font-weight:800}.feature-grid div{padding:8px}.panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 8px 22px #6d421310}.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-weight:800;font-size:13px}.field input,.field select,.field textarea{width:100%;padding:12px;border:1px solid #d9c7a9;border-radius:10px;background:#fffdf9;color:var(--brown)}.field textarea{min-height:85px;resize:vertical}.notice{padding:12px 14px;border-radius:10px;background:#fff2d4;color:#68400f;margin:12px 0}.hidden{display:none!important}.status{display:inline-block;border-radius:999px;padding:5px 10px;font-size:12px;font-weight:800;background:#f4e7cc}.status.green{background:#dff3e7;color:#17623b}.status.red{background:#ffe4df;color:#a02c1d}.status.blue{background:#e1edff;color:#24518b}.status.orange{background:#fff0d4;color:#8d5900}.trackline{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.trackstep{padding:9px 12px;border:1px solid var(--line);border-radius:10px;font-size:12px;font-weight:700}.admin-layout{display:grid;grid-template-columns:220px 1fr;gap:18px}.sidebar{background:#4e2915;color:white;border-radius:16px;padding:16px;height:max-content}.sidebar h3{margin:5px 8px 15px}.sidebtn{width:100%;padding:11px;text-align:left;border-radius:9px;background:transparent;color:#fff;font-weight:700;margin:3px 0}.sidebtn.active,.sidebtn:hover{background:#805026}.admin-main{min-width:0}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}.stat b{display:block;font-size:25px}.stat span{font-size:12px;color:var(--muted)}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:650px}th,td{text-align:left;padding:11px;border-bottom:1px solid #eee1cd;font-size:13px}th{background:#fff5e3}.actions{display:flex;gap:7px;flex-wrap:wrap}.small{padding:7px 10px;border-radius:8px;font-size:12px;font-weight:800}.footer{background:#4e2915;color:#fff4dc;padding:28px 0;text-align:center;margin-top:25px}.footer p{margin:5px}.muted{color:var(--muted)}.row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.admin-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}.search{max-width:280px}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#2d2118;color:white;padding:12px 18px;border-radius:12px;z-index:99;box-shadow:0 6px 20px #0003;max-width:90%;text-align:center}
+@media(max-width:800px){.hero-grid{grid-template-columns:1fr}.hero-art{min-height:240px}.products{grid-template-columns:1fr 1fr}.admin-layout{grid-template-columns:1fr}.sidebar{display:flex;overflow:auto;gap:5px}.sidebar h3{display:none}.sidebtn{white-space:nowrap;width:auto}.stats{grid-template-columns:repeat(2,1fr)}.feature-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.nav{padding:10px 0;align-items:flex-start}.navlinks{gap:10px;font-size:12px;justify-content:flex-end}.brand{font-size:17px}.brand-mark{width:44px;height:44px}.products{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.hero{padding-top:38px}.hero p{font-size:16px}.section{padding:35px 0}}
+
+/* Identitas visual mengikuti kemasan plastik Roti Kita: plastik bening, roti keemasan,
+   label oval cokelat-hitam, ornamen gandum, dan panel biru tua di bagian bawah. */
+:root{--brown:#172b4d;--brown2:#24456f;--gold:#f4ad19;--gold2:#ffd36b;--cream:#f5f7fb;--cream2:#e8eef7;--muted:#65738a;--line:#d9e1ec}
+body{background:#f5f7fb;color:#172b4d}
+.topbar{background:#ffffffed;border-bottom:1px solid #dce4ef}
+.brand{color:#17345e}.brand-mark{width:58px;height:58px;border-radius:12px;background:linear-gradient(145deg,#f7c34d,#e99a08);border:3px solid #17345e;color:#fff;text-shadow:1px 2px 2px #33200a;box-shadow:0 4px 10px #142b4a30}
+.brand-mark small{font-size:7px;letter-spacing:-.2px}
+.navlinks a{color:#17345e}.btn{background:#f3b323;color:#172b4d;box-shadow:0 3px 0 #cf8d0b}.btn.dark{background:#153d75;color:#fff;box-shadow:0 3px 0 #0b2850}
+.hero{background:radial-gradient(circle at 78% 28%,#ffe2a0 0,transparent 27%),linear-gradient(115deg,#fffdf7,#e8eff8)}
+.hero h1{color:#17345e}.hero h1 span{color:#d88d08}.hero p{color:#52637b}.eyebrow{color:#a66b08}
+.hero-art{min-height:370px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px}
+.hero-bread{width:min(300px,78%);height:315px;border-radius:13px 13px 22px 22px;background:linear-gradient(105deg,#ffffffd9 0%,#e8edf2a8 18%,#ffffffa8 34%,#dfe5e9a8 55%,#ffffffc9 78%,#e9edf1b8 100%);border:1.5px solid #c9d2dc;box-shadow:0 22px 42px #172b4d35;transform:rotate(2deg);overflow:hidden}
+.hero-bread:before{inset:0;border:0;border-radius:0;background:repeating-linear-gradient(90deg,transparent 0 7px,#ffffff55 8px 10px);pointer-events:none}
+.hero-bread:after{content:"";position:absolute;left:0;right:0;bottom:0;height:35%;background:linear-gradient(110deg,#082c61,#14549b 55%,#092c60);clip-path:polygon(0 18%,100% 0,100% 100%,0 100%);z-index:0}
+.hero-loaf{position:absolute;width:76%;height:48%;top:8%;left:12%;border-radius:48% 48% 40% 40%;background:radial-gradient(ellipse at 50% 35%,#ffe7a0 0,#e9a83d 48%,#bd6b1b 80%,#8d4917 100%);box-shadow:inset 0 8px 12px #fff7cf88,0 8px 12px #61350c40;transform:rotate(-3deg)}
+.bread-label{position:absolute;top:27%;left:11%;width:78%;height:43%;padding:13px 8px 10px;border-radius:48% 48% 44% 44%;background:linear-gradient(145deg,#3b2418,#160f0c 65%,#5b351b);border:4px double #e6b84e;box-shadow:0 7px 12px #28160977;color:#fff4cf;font-family:Georgia,serif;font-size:34px;font-style:italic;text-shadow:1px 2px 2px #000;display:flex;align-items:center;justify-content:center;flex-direction:column;line-height:.86;z-index:2}
+.bread-label strong{font-weight:900}.bread-label .wheat{font-size:20px;line-height:1;margin-bottom:4px}.bread-label small{font:italic bold 9px Georgia,serif;background:linear-gradient(90deg,#8f1e17,#d34b20,#8f1e17);color:#fff3d0;border-top:1px solid #f3cb63;border-bottom:1px solid #f3cb63;padding:5px 8px;margin-top:9px;letter-spacing:.4px}
+.hero-price{bottom:12px;right:12px;background:#0c3974;border:1px solid #f1c75b;color:white;padding:8px 14px;border-radius:3px;font-weight:900;transform:none;z-index:3}.hero-note{font-size:10px;letter-spacing:2px;color:#60718a;font-weight:900}
+.section-head h2{color:#17345e}.products{gap:20px}.product{background:#fff;border:1px solid #dce4ef;border-radius:16px;box-shadow:0 10px 26px #17345e12}.pack{height:220px;background:linear-gradient(135deg,#eef2f7,#fff 50%,#e9eef5);border:1px solid #edf0f4;border-radius:12px}
+.pack-wrap{width:155px;height:185px;border:1.5px solid #c9d2dc;border-radius:8px 8px 13px 13px;background:linear-gradient(105deg,#ffffffd9 0%,#e9edf2a8 18%,#ffffffb5 36%,#dfe5e9a8 57%,#ffffffd9 78%,#e9edf1b8 100%);box-shadow:0 10px 17px #152d4b35;overflow:hidden}
+.pack-wrap:before{content:"";position:absolute;z-index:4;top:0;left:0;right:0;height:9px;background:repeating-linear-gradient(90deg,#d8dce0 0 2px,#ffffff 2px 4px);border-bottom:1px solid #c7cdd3}
+.pack-wrap:after{height:34%;background:linear-gradient(110deg,#082c61,#14549b 55%,#092c60);clip-path:polygon(0 18%,100% 0,100% 100%,0 100%)}
+.pack-loaf{position:absolute;width:82%;height:54%;top:7%;left:9%;border-radius:48% 48% 40% 40%;background:radial-gradient(ellipse at 50% 32%,#ffe7a0 0,#e9a83d 48%,#bd6b1b 80%,#8d4917 100%);box-shadow:inset 0 7px 10px #fff7cf88,0 5px 9px #61350c35;transform:rotate(-2deg)}
+.pack-logo{position:absolute;top:24%;left:10%;width:80%;height:47%;border-radius:48% 48% 44% 44%;background:linear-gradient(145deg,#3b2418,#160f0c 65%,#5b351b);border:3px double #e6b84e;box-shadow:0 5px 9px #28160977;color:#fff4cf;font:italic 900 24px Georgia,serif;text-shadow:1px 2px 2px #000;display:flex;align-items:center;justify-content:center;flex-direction:column;line-height:.86;z-index:2}
+.pack-logo .wheat{font-size:15px;line-height:1;margin-bottom:3px}.pack-logo small{font:italic bold 7px Georgia,serif;background:linear-gradient(90deg,#8f1e17,#d34b20,#8f1e17);color:#fff3d0;border-top:1px solid #f3cb63;border-bottom:1px solid #f3cb63;padding:4px 5px;margin-top:6px;letter-spacing:.2px}
+.pack-price{bottom:7px;font-size:12px;letter-spacing:.3px;text-shadow:0 1px 2px #00152e;z-index:3}.plastic-shine{position:absolute;z-index:5;inset:10px 8px auto auto;width:13px;height:105px;background:linear-gradient(180deg,#fff9,#fff1,transparent);transform:skew(-12deg);pointer-events:none}
+.product h3{color:#17345e}.price{color:#bd7900}.features{background:#e5edf8}.sidebar{background:#153d75}.sidebtn.active,.sidebtn:hover{background:#27588e}.footer{background:#102c54;color:#f5f7fb}.panel{border-color:#dce4ef}.field input,.field select,.field textarea{border-color:#d2dce9;background:#fbfcfe;color:#17345e}
+@media(max-width:520px){.hero-art{min-height:335px}.hero-bread{height:290px;width:235px}.bread-label{font-size:30px}.pack{height:215px}}
+
 </style>
 </head>
 <body>
-
-<header>
- <div class="logo">🍞 ROTI KITA
-  <small>PT JAYA MAJU SUKSES</small>
+<header class="topbar">
+ <div class="wrap nav">
+  <a class="brand" href="#home"><span class="brand-mark">Roti<br>Kita<small>HANGAT & ISTIMEWA</small></span><span>ROTI KITA</span></a>
+  <nav class="navlinks"><a href="#home">Beranda</a><a href="#produk">Produk</a><a href="#pesan">Pesan</a><a href="#tracking">Lacak Pesanan</a><button class="btn dark" onclick="showAdmin()">Admin</button></nav>
  </div>
- <button onclick="login()">Login Admin</button>
 </header>
-
-<div class="layout">
-<nav id="menu">
- <button class="active" onclick="showPage('home',this)">🏠 Home</button>
- <button onclick="showPage('order',this)">🛒 Order Roti</button>
- <button onclick="showPage('stok',this)">📦 Data Stok</button>
- <button onclick="showPage('tracking',this)">🚚 Tracking Pengiriman</button>
- <button onclick="showPage('distribusi',this)">🏪 Distribusi</button>
- <button onclick="showPage('supplier',this)">🤝 Data Supplier</button>
- <button onclick="showPage('laporan',this)">📊 Laporan</button>
-</nav>
-
-<main>
-<section id="home">
- <div class="welcome">
-  <h2>Hangat dan Istimewa 🍞</h2>
-  <p>Selamat datang di Sistem Informasi Roti Kita.</p>
-  <p>Mengelola penjualan dan distribusi roti dengan lebih mudah.</p>
+<main id="publicApp">
+<section class="hero" id="home"><div class="wrap hero-grid">
+ <div><div class="eyebrow">PT Jaya Maju Sukses mempersembahkan</div><h1>Roti Kita,<br><span>Hangat & Istimewa.</span></h1><p>Roti lezat dengan harga bersahabat. Diproduksi untuk menemani hari, dikemas satuan menggunakan plastik bening dengan identitas Roti Kita.</p><a class="btn dark" href="#produk">Lihat Produk →</a></div>
+ <div class="hero-art"><div class="hero-bread"><div class="hero-loaf"></div><div class="bread-label"><span class="wheat">🌾</span><strong>Roti<br>Kita</strong><small>HANGAT & ISTIMEWA</small></div><div class="hero-price">MULAI Rp2.000</div><div class="pack-glint"></div></div><span class="hero-note">KEMASAN PLASTIK SATUAN</span></div>
+</div></section>
+<section class="section" id="produk"><div class="wrap"><div class="section-head"><h2>Katalog Produk</h2><p>Tiga pilihan produk Roti Kita dengan harga tetap.</p></div><div class="products" id="productList"></div></div></section>
+<section class="features"><div class="wrap feature-grid"><div>🏅<br>Produk Berkualitas</div><div>⚡<br>Proses Cepat</div><div>📦<br>Kemasan Satuan</div><div>🤝<br>Harga Bersahabat</div></div></section>
+<section class="section" id="pesan"><div class="wrap"><div class="section-head"><h2>Pemesanan Roti</h2><p>Isi data pemesanan. Pesanan akan diteruskan ke pengelola Roti Kita.</p></div>
+<div class="panel"><form id="orderForm" class="form-grid">
+ <div class="field"><label>Nama Pemesan</label><input name="customer_name" required maxlength="100" placeholder="Nama lengkap"></div>
+ <div class="field"><label>Nomor WhatsApp</label><input name="phone" required maxlength="25" placeholder="08xxxxxxxxxx"></div>
+ <div class="field full"><label>Alamat Pengiriman</label><textarea name="address" required maxlength="500" placeholder="Alamat lengkap penerima"></textarea></div>
+ <div class="field"><label>Jenis Roti</label><select id="orderProduct" required></select></div>
+ <div class="field"><label>Jumlah (buah/kemasan)</label><input id="orderQty" type="number" min="1" max="500" value="1" required></div>
+ <div class="field full"><div class="row"><b id="orderTotal">Total: Rp2.000</b><button class="btn" type="submit">Kirim Pesanan</button></div></div>
+</form><div id="orderResult" class="notice hidden"></div></div>
+</div></section>
+<section class="section" id="tracking"><div class="wrap"><div class="section-head"><h2>Lacak Pesanan</h2><p>Masukkan nomor pesanan dan nomor WhatsApp yang digunakan.</p></div>
+<div class="panel"><form id="trackForm" class="form-grid"><div class="field"><label>Nomor Pesanan</label><input name="order_number" required placeholder="RK-2026-XXXXXXXX"></div><div class="field"><label>Nomor WhatsApp</label><input name="phone" required placeholder="Nomor saat memesan"></div><div class="field full"><button class="btn dark" type="submit">Lacak Pesanan</button></div></form><div id="trackResult" class="notice hidden"></div></div></div></section>
+</main><section class="section hidden" id="adminApp"><div class="wrap">
+ <div class="row" style="margin-bottom:16px"><div><div class="eyebrow">Panel pengelola</div><h2 style="margin:2px 0">Dashboard Roti Kita</h2></div><button class="btn light" onclick="showPublic()">← Kembali ke Website</button></div>
+ <div id="loginPanel" class="panel" style="max-width:480px;margin:auto"><h3>Login Admin</h3><form id="loginForm" class="form-grid"><div class="field full"><label>Email Admin</label><input name="email" type="email" required></div><div class="field full"><label>Password</label><input name="password" type="password" required></div><div class="field full"><button class="btn dark">Masuk Dashboard</button></div></form><p class="muted" style="font-size:12px">Akun admin dibuat melalui Supabase Authentication. Profil harus diberi role admin oleh pemilik database.</p></div>
+ <div id="dashboard" class="hidden admin-layout">
+  <aside class="sidebar"><h3>ROTI KITA</h3><button class="sidebtn active" data-tab="overview">Dashboard</button><button class="sidebtn" data-tab="orders">Pesanan</button><button class="sidebtn" data-tab="stock">Data Stok</button><button class="sidebtn" data-tab="suppliers">Supplier</button><button class="sidebtn" data-tab="distribution">Distribusi</button><button class="sidebtn" data-tab="reports">Laporan</button><button class="sidebtn" onclick="logoutAdmin()">Keluar</button></aside>
+  <div class="admin-main">
+   <div id="tab-overview" class="admin-tab"><div class="stats"><div class="stat"><b id="statOrders">0</b><span>Total Pesanan</span></div><div class="stat"><b id="statPending">0</b><span>Menunggu Konfirmasi</span></div><div class="stat"><b id="statDelivery">0</b><span>Dalam Pengiriman</span></div><div class="stat"><b id="statRevenue">Rp0</b><span>Omzet Pesanan</span></div></div><div class="panel"><div class="row"><h3>Pesanan Terbaru</h3><button class="btn light" onclick="loadAdminData()">Muat Ulang</button></div><div id="recentOrders" class="table-wrap"></div></div></div>
+   <div id="tab-orders" class="admin-tab hidden"><div class="panel"><div class="row"><h3>Data Pesanan</h3><input class="field search" id="orderSearch" placeholder="Cari nomor/nama pesanan"></div><div id="ordersTable" class="table-wrap"></div></div></div>
+   <div id="tab-stock" class="admin-tab hidden"><div class="panel"><h3>Persediaan Produk</h3><p class="muted">Perbarui jumlah stok tersedia untuk setiap kategori.</p><div id="stockTable" class="table-wrap"></div></div></div>
+   <div id="tab-suppliers" class="admin-tab hidden"><div class="panel"><h3>Tambah Supplier</h3><form id="supplierForm" class="form-grid"><div class="field"><label>Nama Supplier</label><input name="name" required></div><div class="field"><label>Nomor Telepon</label><input name="phone"></div><div class="field"><label>Bahan Baku</label><input name="material" placeholder="Tepung, gula, telur, dll."></div><div class="field"><label>Alamat</label><input name="address"></div><div class="field full"><button class="btn">Simpan Supplier</button></div></form><hr style="border:0;border-top:1px solid var(--line);margin:20px 0"><div id="supplierTable" class="table-wrap"></div></div></div>
+   <div id="tab-distribution" class="admin-tab hidden"><div class="panel"><h3>Pengaturan Distribusi</h3><p class="muted">Ubah status pesanan melalui menu Pesanan. Daftar pengiriman berasal dari pesanan yang sedang dikirim atau telah terkirim.</p><div id="distributionTable" class="table-wrap"></div></div></div>
+   <div id="tab-reports" class="admin-tab hidden"><div class="panel"><div class="row"><h3>Laporan Penjualan</h3><button class="btn" onclick="exportCSV()">Unduh CSV</button></div><p id="reportSummary"></p><div id="reportTable" class="table-wrap"></div></div></div>
+  </div>
  </div>
- <h2>Dashboard Perusahaan</h2>
- <div class="stats">
-  <div class="card">Total Produk<strong>0</strong></div>
-  <div class="card">Total Pesanan<strong>0</strong></div>
-  <div class="card">Stok Roti<strong>0</strong></div>
-  <div class="card">Pengiriman<strong>0</strong></div>
- </div>
- <div class="panel">
-  <h3>Informasi Perusahaan</h3>
-  <p><b>Nama:</b> PT Jaya Maju Sukses</p>
-  <p><b>Produk:</b> Roti Kita</p>
-  <p><b>Slogan:</b> Hangat dan Istimewa</p>
-  <p><b>Kegiatan:</b> Penjualan dan distribusi produk roti.</p>
- </div>
-</section>
-
-<section id="order" class="hidden">
- <h2>Order Roti</h2>
- <div class="panel">
-  <form id="orderForm">
-   <label>Nama Konsumen / Toko</label>
-   <input id="nama" required placeholder="Nama pemesan">
-   <label>Nomor WhatsApp</label>
-   <input id="wa" required placeholder="Nomor WhatsApp">
-   <label>Jumlah Roti</label>
-   <input id="jumlah" type="number" min="1" required>
-   <label>Alamat Pengiriman</label>
-   <input id="alamat" required placeholder="Alamat lengkap">
-   <button type="submit">Kirim Pesanan</button>
-  </form>
-  <p id="pesan"></p>
- </div>
-</section>
-
-<section id="stok" class="hidden">
- <h2>Data Stok</h2>
- <div class="panel">
-  <p>Data persediaan roti di gudang perusahaan.</p>
-  <table>
-   <tr><th>Produk</th><th>Stok</th><th>Satuan</th></tr>
-   <tr><td>Roti Kita</td><td id="stokAngka">0</td><td>Buah</td></tr>
-  </table>
- </div>
-</section>
-
-<section id="tracking" class="hidden">
- <h2>Tracking Pengiriman</h2>
- <div class="panel">
-  <label>Nomor Pesanan</label>
-  <input id="nomorResi" placeholder="Masukkan nomor pesanan">
-  <button onclick="tracking()">Lacak Pesanan</button>
-  <p id="hasilTracking"></p>
- </div>
-</section>
-
-<section id="distribusi" class="hidden">
- <h2>Distribusi</h2>
- <div class="panel">
-  <p>Pengelolaan pengiriman roti ke toko, supermarket, dan pelanggan.</p>
-  <p>Status distribusi akan terhubung dengan pesanan.</p>
- </div>
-</section>
-
-<section id="supplier" class="hidden">
- <h2>Data Supplier</h2>
- <div class="panel">
-  <form id="supplierForm">
-   <label>Nama Supplier</label>
-   <input id="supplierNama" required>
-   <label>Nomor Telepon</label>
-   <input id="supplierTelp" required>
-   <label>Bahan Baku</label>
-   <input id="bahan" required>
-   <button type="submit">Simpan Supplier</button>
-  </form>
-  <div id="supplierList"></div>
- </div>
-</section>
-
-<section id="laporan" class="hidden">
- <h2>Laporan</h2>
- <div class="panel">
-  <p>Laporan penjualan, persediaan stok, dan distribusi akan ditampilkan di sini.</p>
- </div>
-</section>
-
-</main>
-</div>
-
-<footer>© 2026 Roti Kita – PT Jaya Maju Sukses</footer>
-
+</div></section>
+<footer class="footer"><div class="wrap"><b style="font:italic bold 25px Georgia">Roti Kita — Hangat & Istimewa</b><p>PT Jaya Maju Sukses</p><p style="font-size:12px;opacity:.8">Sistem Informasi Penjualan dan Distribusi Roti Berbasis Website</p></div></footer>
+<div id="toast" class="toast hidden"></div>
 <script>
-function showPage(id,btn){
- document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));
- document.getElementById(id).classList.remove('hidden');
- document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
- btn.classList.add('active');
+/* GANTI DUA NILAI INI DENGAN PROJECT URL DAN ANON/PUBLISHABLE KEY SUPABASE KAMU.
+   Jangan pernah memasukkan service_role key atau password database ke website. */
+const SUPABASE_URL = "MASUKKAN_SUPABASE_PROJECT_URL";
+const SUPABASE_ANON_KEY = "MASUKKAN_SUPABASE_ANON_KEY";
+const dbReady = SUPABASE_URL.startsWith("https://") && !SUPABASE_ANON_KEY.startsWith("MASUKKAN_");
+const sb = dbReady ? window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY) : null;
+
+const PRODUCTS = [
+ {name:"Roti Kecil / Manis",price:2000,description:"Roti sederhana dengan rasa manis, dikemas satuan dalam plastik bening.",tag:"Rp2.000"},
+ {name:"Roti Isi Premium",price:4000,description:"Roti dengan pilihan isian yang lebih beragam dan mengenyangkan.",tag:"Rp4.000"},
+ {name:"Roti Spesial / Topping",price:6000,description:"Roti dengan tambahan topping untuk pilihan rasa istimewa.",tag:"Rp6.000"}
+];
+
+let adminOrders=[],adminProducts=[],adminSuppliers=[];
+
+const rupiah=n=>new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(Number(n)||0);
+
+function toast(msg){
+ const el=document.getElementById("toast");
+ el.textContent=msg;
+ el.classList.remove("hidden");
+ setTimeout(()=>el.classList.add("hidden"),3500);
 }
-function login(){
- alert('Fitur login admin akan dihubungkan dengan Supabase.');
+
+function esc(s){
+ return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
-document.getElementById('orderForm').addEventListener('submit',function(e){
+
+function packageCard(p){
+ return `<article class="product">
+ <div class="pack">
+  <div class="pack-wrap">
+   <div class="pack-loaf"></div>
+   <div class="pack-logo">
+    <span class="wheat">🌾</span>
+    <strong>Roti<br>Kita</strong>
+    <small>HANGAT & ISTIMEWA</small>
+   </div>
+   <div class="pack-price">${rupiah(p.price)}</div>
+   <i class="plastic-shine"></i>
+  </div>
+ </div>
+ <h3>${esc(p.name)}</h3>
+ <div class="price">${rupiah(p.price)}</div>
+ <p>${esc(p.description)}</p>
+ <button class="btn" onclick="chooseProduct('${esc(p.name)}')">Pesan Produk</button>
+ </article>`;
+}
+
+function renderProducts(){
+ document.getElementById("productList").innerHTML=PRODUCTS.map(packageCard).join("");
+ document.getElementById("orderProduct").innerHTML=PRODUCTS.map(p=>`<option value="${esc(p.name)}">${esc(p.name)} — ${rupiah(p.price)}</option>`).join("");
+ updateTotal();
+}
+
+function chooseProduct(name){
+ document.getElementById("orderProduct").value=name;
+ updateTotal();
+ location.hash="pesan";
+}
+
+function updateTotal(){
+ const p=PRODUCTS.find(x=>x.name===document.getElementById("orderProduct").value)||PRODUCTS[0];
+ const q=Math.max(1,Number(document.getElementById("orderQty").value)||1);
+ document.getElementById("orderTotal").textContent="Total: "+rupiah(p.price*q);
+}
+
+document.getElementById("orderProduct").addEventListener("change",updateTotal);
+document.getElementById("orderQty").addEventListener("input",updateTotal);
+
+function showAdmin(){
+ document.getElementById("publicApp").classList.add("hidden");
+ document.getElementById("adminApp").classList.remove("hidden");
+ window.scrollTo(0,0);
+}
+
+function showPublic(){
+ document.getElementById("adminApp").classList.add("hidden");
+ document.getElementById("publicApp").classList.remove("hidden");
+ window.scrollTo(0,0);
+}
+
+/* PEMESANAN KONSUMEN */
+document.getElementById("orderForm").addEventListener("submit",async e=>{
  e.preventDefault();
- document.getElementById('pesan').textContent=
- 'Pesanan diterima sebagai demo. Sistem database akan dihubungkan berikutnya.';
+
+ if(!dbReady){
+  toast("Supabase belum dikonfigurasi. Isi URL dan anon key terlebih dahulu.");
+  return;
+ }
+
+ const f=new FormData(e.target);
+ const p=PRODUCTS.find(x=>x.name===document.getElementById("orderProduct").value);
+ const qty=Number(document.getElementById("orderQty").value);
+
+ if(!p||qty<1||qty>500){
+  toast("Periksa produk dan jumlah pesanan.");
+  return;
+ }
+
+ const payload={
+  p_customer_name:f.get("customer_name").trim(),
+  p_phone:f.get("phone").trim(),
+  p_address:f.get("address").trim(),
+  p_items:[{name:p.name,quantity:qty}]
+ };
+
+ const {data,error}=await sb.rpc("place_public_order",payload);
+
+ if(error){
+  toast("Pesanan belum terkirim: "+error.message);
+  return;
+ }
+
+ document.getElementById("orderResult").classList.remove("hidden");
+ document.getElementById("orderResult").innerHTML=`Pesanan berhasil dicatat. Nomor pesanan kamu: <b>${esc(data.order_number)}</b>. Simpan nomor ini untuk melacak pesanan.`;
+
+ e.target.reset();
+ document.getElementById("orderQty").value=1;
+ updateTotal();
 });
-document.getElementById('supplierForm').addEventListener('submit',function(e){
+
+/* TRACKING PESANAN */
+document.getElementById("trackForm").addEventListener("submit",async e=>{
  e.preventDefault();
- const nama=document.getElementById('supplierNama').value;
- const telp=document.getElementById('supplierTelp').value;
- const bahan=document.getElementById('bahan').value;
- document.getElementById('supplierList').innerHTML +=
- '<p>'+nama+' - '+telp+' - '+bahan+'</p>';
- this.reset();
+
+ if(!dbReady){
+  toast("Supabase belum dikonfigurasi.");
+  return;
+ }
+
+ const f=new FormData(e.target);
+ const {data,error}=await sb.rpc("track_public_order",{
+  p_order_number:f.get("order_number").trim(),
+  p_phone:f.get("phone").trim()
+ });
+
+ const out=document.getElementById("trackResult");
+ out.classList.remove("hidden");
+
+ if(error||!data){
+  out.textContent="Pesanan tidak ditemukan. Periksa nomor pesanan dan WhatsApp.";
+  return;
+ }
+
+ const steps=["Menunggu Konfirmasi","Diproses","Dalam Pengiriman","Tertunda","Terkirim"];
+
+ out.innerHTML=`<b>${esc(data.order_number)}</b><br>
+ Nama: ${esc(data.customer_name)}<br>
+ Total: ${rupiah(data.total_amount)}<br>
+ Status: <span class="status blue">${esc(data.status)}</span>
+ <div class="trackline">${steps.map(s=>`<span class="trackstep">${s===data.status?"● ":"○ "}${s}</span>`).join("")}</div>`;
 });
-function tracking(){
- document.getElementById('hasilTracking').textContent=
- 'Data tracking akan tersedia setelah sistem database terhubung.';
+
+/* LOGIN ADMIN */
+document.getElementById("loginForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+
+ if(!dbReady){
+  toast("Konfigurasikan Supabase terlebih dahulu.");
+  return;
+ }
+
+ const f=new FormData(e.target);
+
+ const {data,error}=await sb.auth.signInWithPassword({
+  email:f.get("email"),
+  password:f.get("password")
+ });
+
+ if(error){
+  toast(error.message);
+  return;
+ }
+
+ const {data:profile,error:pe}=await sb.from("profiles").select("role").eq("id",data.user.id).single();
+
+ if(pe||profile?.role!=="admin"){
+  await sb.auth.signOut();
+  toast("Akun ini belum memiliki hak akses admin.");
+  return;
+ }
+
+ document.getElementById("loginPanel").classList.add("hidden");
+ document.getElementById("dashboard").classList.remove("hidden");
+
+ await loadAdminData();
+ toast("Login admin berhasil.");
+});
+
+async function logoutAdmin(){
+ if(sb)await sb.auth.signOut();
+
+ document.getElementById("dashboard").classList.add("hidden");
+ document.getElementById("loginPanel").classList.remove("hidden");
+
+ toast("Kamu sudah keluar.");
 }
+
+/* NAVIGASI DASHBOARD */
+document.querySelectorAll(".sidebtn[data-tab]").forEach(b=>
+ b.addEventListener("click",()=>{
+  document.querySelectorAll(".sidebtn[data-tab]").forEach(x=>x.classList.toggle("active",x===b));
+  document.querySelectorAll(".admin-tab").forEach(x=>x.classList.add("hidden"));
+  document.getElementById("tab-"+b.dataset.tab).classList.remove("hidden");
+ })
+);
+
+/* MEMUAT DATA ADMIN */
+async function loadAdminData(){
+ if(!sb)return;
+
+ const [o,p,s]=await Promise.all([
+  sb.from("orders").select("*").order("created_at",{ascending:false}),
+  sb.from("products").select("*").order("price"),
+  sb.from("suppliers").select("*").order("name")
+ ]);
+
+ if(o.error||p.error||s.error){
+  toast("Gagal memuat data. Periksa kebijakan database.");
+  return;
+ }
+
+ adminOrders=o.data||[];
+ adminProducts=p.data||[];
+ adminSuppliers=s.data||[];
+
+ document.getElementById("statOrders").textContent=adminOrders.length;
+ document.getElementById("statPending").textContent=adminOrders.filter(x=>x.status==="Menunggu Konfirmasi").length;
+ document.getElementById("statDelivery").textContent=adminOrders.filter(x=>x.status==="Dalam Pengiriman").length;
+
+ document.getElementById("statRevenue").textContent=rupiah(
+  adminOrders.filter(x=>x.status!=="Dibatalkan").reduce((a,x)=>a+Number(x.total_amount),0)
+ );
+
+ renderOrders();
+ renderStock();
+ renderSuppliers();
+ renderDistribution();
+ renderReports();
+}
+
+function orderRows(rows){
+ return `<table>
+ <thead><tr>
+ <th>No. Pesanan</th><th>Pemesan</th><th>Total</th><th>Status</th><th>Ubah Status</th>
+ </tr></thead>
+ <tbody>${rows.map(o=>`<tr>
+ <td>${esc(o.order_number)}</td>
+ <td>${esc(o.customer_name)}<br><small>${esc(o.phone)}</small></td>
+ <td>${rupiah(o.total_amount)}</td>
+ <td><span class="status">${esc(o.status)}</span></td>
+ <td><select onchange="changeOrderStatus('${o.id}',this.value)">
+ ${["Menunggu Konfirmasi","Diproses","Dalam Pengiriman","Tertunda","Terkirim","Dibatalkan"].map(s=>`<option ${s===o.status?"selected":""}>${s}</option>`).join("")}
+ </select></td>
+ </tr>`).join("")}</tbody></table>`;
+}
+
+function renderOrders(){
+ document.getElementById("ordersTable").innerHTML=orderRows(adminOrders);
+ document.getElementById("recentOrders").innerHTML=orderRows(adminOrders.slice(0,5));
+}
+
+document.getElementById("orderSearch").addEventListener("input",e=>{
+ const q=e.target.value.toLowerCase();
+
+ document.getElementById("ordersTable").innerHTML=orderRows(
+  adminOrders.filter(o=>(o.order_number+o.customer_name+o.phone).toLowerCase().includes(q))
+ );
+});
+
+async function changeOrderStatus(id,status){
+ const {error}=await sb.from("orders").update({status}).eq("id",id);
+
+ if(error){
+  toast(error.message);
+  return;
+ }
+
+ toast("Status pesanan diperbarui.");
+ await loadAdminData();
+}
+
+/* DATA STOK */
+async function renderStock(){
+ const {data,error}=await sb.from("stock").select("id,quantity,products(name,price)").order("id");
+
+ if(error){
+  document.getElementById("stockTable").textContent=error.message;
+  return;
+ }
+
+ document.getElementById("stockTable").innerHTML=`<table>
+ <thead><tr><th>Produk</th><th>Harga</th><th>Stok</th><th>Aksi</th></tr></thead>
+ <tbody>${(data||[]).map(x=>`<tr>
+ <td>${esc(x.products?.name)}</td>
+ <td>${rupiah(x.products?.price)}</td>
+ <td><input id="qty-${x.id}" type="number" min="0" value="${x.quantity}" style="width:90px;padding:7px"></td>
+ <td><button class="btn small" onclick="saveStock('${x.id}')">Simpan</button></td>
+ </tr>`).join("")}</tbody></table>`;
+}
+
+async function saveStock(id){
+ const quantity=Number(document.getElementById("qty-"+id).value);
+
+ if(!Number.isInteger(quantity)||quantity<0){
+  toast("Jumlah stok tidak valid.");
+  return;
+ }
+
+ const {error}=await sb.from("stock").update({
+  quantity,
+  updated_at:new Date().toISOString()
+ }).eq("id",id);
+
+ toast(error?error.message:"Stok berhasil diperbarui.");
+}
+
+/* DATA SUPPLIER */
+document.getElementById("supplierForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+
+ const f=new FormData(e.target);
+
+ const {error}=await sb.from("suppliers").insert({
+  name:f.get("name"),
+  phone:f.get("phone"),
+  material:f.get("material"),
+  address:f.get("address")
+ });
+
+ if(error){
+  toast(error.message);
+  return;
+ }
+
+ e.target.reset();
+ toast("Supplier disimpan.");
+ await loadAdminData();
+});
+
+function renderSuppliers(){
+ document.getElementById("supplierTable").innerHTML=`<table>
+ <thead><tr><th>Supplier</th><th>Bahan</th><th>Telepon</th><th>Alamat</th></tr></thead>
+ <tbody>${adminSuppliers.map(s=>`<tr>
+ <td>${esc(s.name)}</td>
+ <td>${esc(s.material)}</td>
+ <td>${esc(s.phone)}</td>
+ <td>${esc(s.address)}</td>
+ </tr>`).join("")}</tbody></table>`;
+}
+
+/* DISTRIBUSI */
+function renderDistribution(){
+ const rows=adminOrders.filter(o=>["Dalam Pengiriman","Tertunda","Terkirim"].includes(o.status));
+ document.getElementById("distributionTable").innerHTML=orderRows(rows);
+}
+
+/* LAPORAN */
+function renderReports(){
+ const total=adminOrders.filter(x=>x.status!=="Dibatalkan").reduce((a,x)=>a+Number(x.total_amount),0);
+
+ document.getElementById("reportSummary").textContent=
+ `Total ${adminOrders.length} pesanan • Nilai pesanan tidak dibatalkan ${rupiah(total)}.`;
+
+ document.getElementById("reportTable").innerHTML=orderRows(adminOrders);
+}
+
+function exportCSV(){
+ const rows=[
+  ["Nomor Pesanan","Nama","WhatsApp","Alamat","Total","Status","Tanggal"],
+  ...adminOrders.map(o=>[
+   o.order_number,o.customer_name,o.phone,o.address,
+   o.total_amount,o.status,o.created_at
+  ])
+ ];
+
+ const csv=rows.map(r=>r.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\n");
+
+ const a=document.createElement("a");
+ a.href=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}));
+ a.download="laporan-roti-kita.csv";
+ a.click();
+
+ URL.revokeObjectURL(a.href);
+}
+
+renderProducts();
 </script>
 </body>
 </html>
